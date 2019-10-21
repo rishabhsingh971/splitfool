@@ -95,7 +95,7 @@ def add_expense(
             raise Exception('share of any friend is not given')
         if expense_type == 'percentage':
             amounts = [
-                total_amount * round(share, 2) for share in shares
+                total_amount * round(share / 100, 2) for share in shares
             ]
         elif expense_type == 'exact':
             amounts = shares
