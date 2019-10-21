@@ -88,6 +88,7 @@ def get_amounts(
         return [
             total_amount * round(share / share_total, 2) for share in shares
         ]
+    raise Exception('Invalid expense type - {}'.format(expense_type))
 
 
 def add_expense(
