@@ -56,6 +56,40 @@ def add_balance(from_user_id: int, to_user_id: int, amount: float):
     balance[from_user_id][to_user_id] = previous_balance + amount
 
 
+def get_amounts(
+        expense_type: str,
+        friend_ids: list,
+        total_amount: float,
+        shares: list
+):
+    if expense_type == 'equal':
+        num_borrower = len(friend_ids)
+        return [total_amount * round(1.0 / num_borrower, 2)] * num_borrower
+    if len(friend_ids) != len(shares):
+        raise Exception('number friends and shares must be equal')
+    if not shares:
+        raise Exception('share of any friend is not given')
+
+    for idx, share in enumerate(shares):
+        if share > 0:
+            continue
+        raise Exception(
+            'Invalid share - {}, for user id - {}'.format(
+                share, friend_ids[idx])
+        )
+    if expense_type == 'percentage':
+        return [
+            total_amount * round(share / 100, 2) for share in shares
+        ]
+    if expense_type == 'exact':
+        return shares
+    if expense_type == 'parts':
+        share_total = sum(share_total) * 1.0
+        return [
+            total_amount * round(share / share_total, 2) for share in shares
+        ]
+
+
 def add_expense(
         payer_id: int,
         friend_ids: list,
@@ -85,35 +119,7 @@ def add_expense(
         if users.get(friend_id):
             continue
         raise Exception('Invalid friend user id - {}'.format(friend_id))
-    amounts = None
-    if expense_type == 'equal':
-        num_borrower = len(friend_ids)
-        percentage = round(1.0 / num_borrower, 2)
-        amounts = [total_amount*percentage] * num_borrower
-    else:
-        if len(friend_ids) != len(shares):
-            raise Exception('number friends and shares must be equal')
-        if not shares:
-            raise Exception('share of any friend is not given')
-
-        for idx, share in enumerate(shares):
-            if share > 0:
-                continue
-            raise Exception(
-                'Invalid share - {}, for user id - {}'.format(
-                    share, friend_ids[idx])
-            )
-        if expense_type == 'percentage':
-            amounts = [
-                total_amount * round(share / 100, 2) for share in shares
-            ]
-        elif expense_type == 'exact':
-            amounts = shares
-        elif expense_type == 'parts':
-            share_total = sum(share_total) * 1.0
-            amounts = [
-                total_amount * round(share / share_total, 2) for share in shares
-            ]
+    amounts = get_amounts(expense_type, friend_ids, total_amount, shares)
     for friend_id, amount in zip(friend_ids, amounts):
         add_balance(payer_id, friend_id, -amount)
         add_balance(friend_id, payer_id, amount)
