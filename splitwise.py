@@ -105,8 +105,8 @@ def add_expense(
                 total_amount * round(share / share_total, 2) for share in shares
             ]
     for friend_id, amount in zip(friend_ids, amounts):
-        add_balance(payer_id, friend_id, amount)
-        add_balance(friend_id, payer_id, -amount)
+        add_balance(payer_id, friend_id, -amount)
+        add_balance(friend_id, payer_id, amount)
 
 
 # add users
