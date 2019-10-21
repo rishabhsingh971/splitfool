@@ -124,6 +124,7 @@ n = 4
 for i in range(1, n+1):
     add_user(i, 'user {}'.format(i))
 print(users)
+# add expenses
 add_expense(1, [2], 100)
 add_expense(2, [3], 100)
 print(balance)
