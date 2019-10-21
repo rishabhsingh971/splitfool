@@ -79,6 +79,8 @@ def add_expense(
         raise Exception('Invalid Payer Id - {}'.format(payer_id))
     if not friend_ids:
         raise Exception('No friends specified')
+    if total_amount <= 0:
+        raise Exception('Invalid amount - {}'.format(total_amount))
     for friend_id in friend_ids:
         if users.get(friend_id):
             continue
