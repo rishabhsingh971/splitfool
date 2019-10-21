@@ -91,7 +91,7 @@ def add_expense(
         percentage = round(1.0 / num_borrower, 2)
         amounts = [total_amount*percentage] * num_borrower
     else:
-        if not len(friend_ids) != len(shares):
+        if len(friend_ids) != len(shares):
             raise Exception('number friends and shares must be equal')
         if not shares:
             raise Exception('share of any friend is not given')
