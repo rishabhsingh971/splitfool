@@ -93,6 +93,14 @@ def add_expense(
             raise Exception('number friends and shares must be equal')
         if not shares:
             raise Exception('share of any friend is not given')
+
+        for idx, share in enumerate(shares):
+            if share > 0:
+                continue
+            raise Exception(
+                'Invalid share - {}, for user id - {}'.format(
+                    share, friend_ids[idx])
+            )
         if expense_type == 'percentage':
             amounts = [
                 total_amount * round(share / 100, 2) for share in shares
