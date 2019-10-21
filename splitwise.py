@@ -68,11 +68,11 @@ def add_expense(
     Arguments:
         payer_id {int} -- payee user id
         type {str} -- type of expense
-        borrower_ids {list} -- list of borrower user ids
+        friend_ids {list} -- list of friend user ids
         total_amount {float} -- total amount
 
     Keyword Arguments:
-        shares {list} -- share of each borrower in case expense
+        shares {list} -- share of each friend in case expense
             is not equally distributed (default: {None})
     """
     if not users.get(payer_id):
