@@ -40,6 +40,14 @@ class Transaction:
             expenses.append(self.expense_id)
             Transaction.__data[user_id] = expenses
 
+    @staticmethod
+    def get_user_data(user_id: int):
+        return Transaction.__data.get(user_id)
+
+    @staticmethod
+    def get_all_data():
+        return Transaction.__data
+
 
 class Balance:
     __data: dict = {}
