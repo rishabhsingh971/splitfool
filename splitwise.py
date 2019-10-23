@@ -86,7 +86,7 @@ class Expense:
         """update expenses"""
         self.__data[self.expense_id] = self
 
-    def __update_balances():
+    def __update_balances(self):
         for friend_id, amount in zip(self.friend_ids, self.amounts):
             balance = Expense.__balances.get(self.payee_id, {})
             balance[friend_id] = balance.get(friend_id, 0) - amount
