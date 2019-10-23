@@ -77,6 +77,24 @@ class Expense:
             expenses = Expense.__transactions.get(user_id, [])
             expenses.append(self.expense_id)
             Expense.__transactions[user_id] = expenses
+        # update expense data
+        self.__update_expenses()
+        # update balances
+        self.__update_balances()
+
+    def __update_expenses(self):
+        """update expenses"""
+        self.__data[self.expense_id] = self
+
+    def __update_balances():
+        for friend_id, amount in zip(self.friend_ids, self.amounts):
+            balance = Expense.__balances.get(self.payee_id, {})
+            balance[friend_id] = balance.get(friend_id, 0) - amount
+            Expense.__balances[self.payee_id] = balance
+
+            balance = Expense.__balances.get(friend_id, {})
+            balance[friend_id] = balance.get(self.payee_id, 0) + amount
+            Expense.__balances[self.payee_id] = balance
 
     def __validate(self):
         # TODO: use custom exceptions
