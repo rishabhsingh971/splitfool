@@ -110,6 +110,7 @@ class Expense:
 
         Expense.__num += 1
 
+        # add transaction
         Transaction(payee_id, friend_ids, self.expense_id)
         # add balance
         Balance(payee_id, friend_ids, amounts)
