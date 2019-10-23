@@ -115,9 +115,9 @@ class Expense:
         # add balance
         Balance(payee_id, friend_ids, amounts)
         # update expense data
-        self.__update_expenses()
+        self.__add()
 
-    def __update_expenses(self):
+    def __add(self):
         """update expenses"""
         self.__data[self.expense_id] = self
 
