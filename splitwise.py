@@ -41,6 +41,29 @@ class Transaction:
             Transaction.__data[user_id] = expenses
 
 
+class Balance:
+    __data: dict = {}
+    __num: int = 1
+
+    def __init__(self, payee_id, friend_ids, amounts):
+        self.transaction_id = Balance.__num
+        self.payee_id = payee_id
+        self.friend_ids = friend_ids
+        self.amounts = amounts
+        self.__add()
+        Balance.__num += 1
+
+    def __add(self):
+        for friend_id, amount in zip(self.friend_ids, self.amounts):
+            balance = Balance.__data.get(self.payee_id, {})
+            balance[friend_id] = balance.get(friend_id, 0) - amount
+            Balance.__data[self.payee_id] = balance
+
+            balance = Balance.__data.get(friend_id, {})
+            balance[friend_id] = balance.get(self.payee_id, 0) + amount
+            Balance.__data[self.payee_id] = balance
+
+
 class Expense:
     __balances: dict = {}
     __data: dict = {}
@@ -83,29 +106,19 @@ class Expense:
         self.__validate()
 
         # calculate amount per friend
-        self.amounts = self.calculate_amounts()
+        amounts = self.calculate_amounts()
 
         Expense.__num += 1
 
         Transaction(payee_id, friend_ids, self.expense_id)
+        # add balance
+        Balance(payee_id, friend_ids, amounts)
         # update expense data
         self.__update_expenses()
-        # update balances
-        self.__update_balances()
 
     def __update_expenses(self):
         """update expenses"""
         self.__data[self.expense_id] = self
-
-    def __update_balances(self):
-        for friend_id, amount in zip(self.friend_ids, self.amounts):
-            balance = Expense.__balances.get(self.payee_id, {})
-            balance[friend_id] = balance.get(friend_id, 0) - amount
-            Expense.__balances[self.payee_id] = balance
-
-            balance = Expense.__balances.get(friend_id, {})
-            balance[friend_id] = balance.get(self.payee_id, 0) + amount
-            Expense.__balances[self.payee_id] = balance
 
     def __validate(self):
         # TODO: use custom exceptions
