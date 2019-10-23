@@ -73,10 +73,10 @@ class Expense:
 
     def __update_transaction(self):
         # should be atomic
-        for friend_id in self.friend_ids:
-            expenses = self.__transactions.get(friend_id, [])
+        for user_id in [self.payee_id, *self.friend_ids]:
+            expenses = Expense.__transactions.get(user_id, [])
             expenses.append(self.expense_id)
-            self.__transactions[friend_id] = expenses
+            Expense.__transactions[user_id] = expenses
 
     def __validate(self):
         # TODO: use custom exceptions
