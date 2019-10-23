@@ -68,6 +68,10 @@ class Expense:
 
         Expense.__num += 1
 
+        # update expense data
+        self.__update_expenses()
+        # update balances
+        self.__update_balances()
         # update transaction
         self.__update_transactions()
 
@@ -77,10 +81,6 @@ class Expense:
             expenses = Expense.__transactions.get(user_id, [])
             expenses.append(self.expense_id)
             Expense.__transactions[user_id] = expenses
-        # update expense data
-        self.__update_expenses()
-        # update balances
-        self.__update_balances()
 
     def __update_expenses(self):
         """update expenses"""
