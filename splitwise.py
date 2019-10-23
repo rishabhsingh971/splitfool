@@ -68,10 +68,10 @@ class Expense:
 
         Expense.__num += 1
 
-        # add transaction
-        self.__add_transaction()
+        # update transaction
+        self.__update_transactions()
 
-    def __add_transaction(self):
+    def __update_transaction(self):
         # should be atomic
         for friend_id in self.friend_ids:
             expenses = self.__transactions.get(friend_id, [])
