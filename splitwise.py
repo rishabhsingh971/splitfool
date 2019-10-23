@@ -8,7 +8,6 @@ from datetime import datetime
 #     PERCENTAGE = 'percentage'
 #     PARTS = 'parts'
 
-
 # class InvalidFriendIDsException(Exception):
 #     pass
 
@@ -20,9 +19,29 @@ from datetime import datetime
 # class InvalidAmountException(Exception):
 #     pass
 
+class Transaction:
+    __data: dict = {}
+    __num: int = 1
+
+    def __init__(self, payee_id: int, friend_ids: int, expense_id: int):
+        self.transaction_id = Transaction.__num
+        self.payee_id = payee_id
+        self.friend_ids = friend_ids
+        self.expense_id = expense_id
+
+        # update transaction
+        self.__update_transaction()
+        Transaction.__num += 1
+
+    def __update_transaction(self):
+        # should be atomic
+        for user_id in [self.payee_id, *self.friend_ids]:
+            expenses = Transaction.__data.get(user_id, [])
+            expenses.append(self.expense_id)
+            Transaction.__data[user_id] = expenses
+
 
 class Expense:
-    __transactions: dict = {}
     __balances: dict = {}
     __data: dict = {}
     __num: int = 1
@@ -68,19 +87,11 @@ class Expense:
 
         Expense.__num += 1
 
+        Transaction(payee_id, friend_ids, self.expense_id)
         # update expense data
         self.__update_expenses()
         # update balances
         self.__update_balances()
-        # update transaction
-        self.__update_transactions()
-
-    def __update_transaction(self):
-        # should be atomic
-        for user_id in [self.payee_id, *self.friend_ids]:
-            expenses = Expense.__transactions.get(user_id, [])
-            expenses.append(self.expense_id)
-            Expense.__transactions[user_id] = expenses
 
     def __update_expenses(self):
         """update expenses"""
