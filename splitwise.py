@@ -30,10 +30,10 @@ class Transaction:
         self.expense_id = expense_id
 
         # update transaction
-        self.__update_transaction()
+        self.__add()
         Transaction.__num += 1
 
-    def __update_transaction(self):
+    def __add(self):
         # should be atomic
         for user_id in [self.payee_id, *self.friend_ids]:
             expenses = Transaction.__data.get(user_id, [])
