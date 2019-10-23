@@ -24,7 +24,7 @@ from datetime import datetime
 class Expense:
     __transactions: dict = {}
     __balances: dict = {}
-    __data = {}
+    __data: dict = {}
     __num: int = 1
 
     def __init__(
