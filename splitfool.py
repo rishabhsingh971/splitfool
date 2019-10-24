@@ -177,7 +177,7 @@ class Expense:
     def __calculate_amounts(self):
         if self.expense_type == 'equal':
             num_friends = len(self.friend_ids)
-            return [self.total_amount * round(1.0 / num_friends, 2)] * num_friends
+            return [self.total_amount * round(1.0 / num_friends, 4)] * num_friends
 
         if self.expense_type == 'percentage':
             return [
