@@ -201,6 +201,9 @@ class Expense:
     def get_by_id(expense_id):
         return Expense.get_all_data().get(expense_id)
 
+    def __repr__(self):
+        return '<Expense {}: {}>'.format(self.uid, self.title)
+
 
 class User:
     __num = 1
