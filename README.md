@@ -1,2 +1,2 @@
-# splitwise-lld
-Splitwise Low Level Design
+# SplitFool
+Split Money 
