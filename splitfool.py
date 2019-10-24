@@ -252,6 +252,10 @@ class User:
 
     def get_balance(self):
         return Balance.get_user_data(self.uid)
+
+    def get_transactions(self):
+        return Transaction.get_user_data(self.uid)
+
     def __repr__(self):
         return '<User {} : {}>'.format(self.uid, self.name)
 
