@@ -68,8 +68,8 @@ class Balance:
             Balance.__data[self.payee_id] = balance
 
             balance = Balance.__data.get(friend_id, {})
-            balance[friend_id] = balance.get(self.payee_id, 0) + amount
-            Balance.__data[self.payee_id] = balance
+            balance[self.payee_id] = balance.get(self.payee_id, 0) + amount
+            Balance.__data[friend_id] = balance
 
     @staticmethod
     def get_all_data():
