@@ -220,8 +220,8 @@ class User:
     def is_valid(user_id: int):
         return user_id in User.__data
 
-    def add_expense(self, *args, **kwargs):
-        Expense(*args, **kwargs)
+    # def add_expense(self, *args, **kwargs):
+    #     Expense(*args, **kwargs)
 
     def __repr__(self):
         return '<User {} : {}>'.format(self.user_id, self.name)
