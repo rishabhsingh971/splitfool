@@ -200,7 +200,7 @@ class User:
 
     def __init__(self, name: str, phone_number: str = None, email: str = None):
         # assign id
-        self.user_id = User.__num
+        self.uid = User.__num
 
         self.name = name
         self.phone_number = phone_number
@@ -209,7 +209,7 @@ class User:
         # TODO: sanitize input
 
         # store user
-        User.__data[self.user_id] = self
+        User.__data[self.uid] = self
         User.__num += 1
 
     @staticmethod
@@ -224,7 +224,7 @@ class User:
     #     Expense(*args, **kwargs)
 
     def __repr__(self):
-        return '<User {} : {}>'.format(self.user_id, self.name)
+        return '<User {} : {}>'.format(self.uid, self.name)
 
 
 # add users
