@@ -1,2 +1,2 @@
 # SplitFool
-Split Money 
+Split Bills between friends 
