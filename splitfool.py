@@ -250,6 +250,8 @@ class User:
             shares
         )
 
+    def get_balance(self):
+        return Balance.get_user_data(self.uid)
     def __repr__(self):
         return '<User {} : {}>'.format(self.uid, self.name)
 
