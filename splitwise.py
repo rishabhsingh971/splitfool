@@ -193,6 +193,14 @@ class Expense:
                 self.total_amount * round(share / share_total, 2) for share in self.shares
             ]
 
+    @staticmethod
+    def get_all_data():
+        return Expense.__data
+
+    @staticmethod
+    def get_by_id(expense_id):
+        return Expense.get_all_data().get(expense_id)
+
 
 class User:
     __num = 1
