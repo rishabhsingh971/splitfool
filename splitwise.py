@@ -41,12 +41,12 @@ class Transaction:
             Transaction.__data[user_id] = expenses
 
     @staticmethod
-    def get_user_data(user_id: int):
-        return Transaction.__data.get(user_id)
-
-    @staticmethod
     def get_all_data():
         return Transaction.__data
+
+    @staticmethod
+    def get_user_data(user_id: int):
+        return Transaction.__data.get(user_id)
 
 
 class Balance:
