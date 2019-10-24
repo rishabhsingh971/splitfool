@@ -24,7 +24,7 @@ class Transaction:
     __num: int = 1
 
     def __init__(self, payee_id: int, friend_ids: int, expense_id: int):
-        self.transaction_id = Transaction.__num
+        self.uid = Transaction.__num
         self.payee_id = payee_id
         self.friend_ids = friend_ids
         self.expense_id = expense_id
@@ -54,7 +54,7 @@ class Balance:
     __num: int = 1
 
     def __init__(self, payee_id, friend_ids, amounts):
-        self.transaction_id = Balance.__num
+        self.uid = Balance.__num
         self.payee_id = payee_id
         self.friend_ids = friend_ids
         self.amounts = amounts
