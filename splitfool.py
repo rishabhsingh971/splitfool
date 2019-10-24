@@ -258,25 +258,3 @@ class User:
 
     def __repr__(self):
         return '<User {} : {}>'.format(self.uid, self.name)
-
-
-# add users
-n = 5
-users = []
-for i in range(1, n+1):
-    user = User('username {}'.format(i))
-    users.append(user)
-print(users)
-friend_ids = list(map(lambda user: user.uid, users[1:4]))
-test_user = users[0]
-test_user.add_expense('uber', test_user.uid, friend_ids, 200)
-
-print('\n-------- Expenses --------------')
-print(Expense.get_all_data())
-print('----------------------------------')
-print('\n-------- Balances --------------')
-print(Balance.get_all_data())
-print('----------------------------------')
-print('\n-------- Transactions ----------')
-print(Transaction.get_all_data())
-print('----------------------------------')
