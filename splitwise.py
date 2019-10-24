@@ -108,7 +108,7 @@ class Expense:
                 is not equally distributed (default: {None})
         """
         # create expense id
-        self.expense_id = Expense.__num
+        self.uid = Expense.__num
 
         self.title = title
         self.payee_id = payee_id
@@ -127,7 +127,7 @@ class Expense:
         Expense.__num += 1
 
         # add transaction
-        Transaction(payee_id, friend_ids, self.expense_id)
+        Transaction(payee_id, friend_ids, self.uid)
         # add balance
         Balance(payee_id, friend_ids, amounts)
         # update expense data
@@ -135,7 +135,7 @@ class Expense:
 
     def __add(self):
         """update expenses"""
-        self.__data[self.expense_id] = self
+        self.__data[self.uid] = self
 
     def __validate(self):
         # TODO: use custom exceptions
