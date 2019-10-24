@@ -71,6 +71,14 @@ class Balance:
             balance[friend_id] = balance.get(self.payee_id, 0) + amount
             Balance.__data[self.payee_id] = balance
 
+    @staticmethod
+    def get_all_data():
+        return Balance.__data
+
+    @staticmethod
+    def get_user_data(user_id):
+        return Balance.get_all_data().get(user_id)
+
 
 class Expense:
     __balances: dict = {}
