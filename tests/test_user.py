@@ -21,6 +21,10 @@ class TestUser(unittest.TestCase):
     def test_email(self):
         self.assertEqual(self.user.email, self.email)
 
+    def test_different_id(self):
+        user2 = User(self.name)
+        self.assertNotEqual(user2.uid, self.user.uid)
+
 
 if __name__ == '__main__':
     unittest.main()
