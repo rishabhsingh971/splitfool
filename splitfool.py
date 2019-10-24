@@ -24,7 +24,7 @@ class Transaction:
     __num: int = 1
 
     def __init__(self, payee_id: int, friend_ids: int, expense_id: int):
-        self.transaction_id = Transaction.__num
+        self.uid = Transaction.__num
         self.payee_id = payee_id
         self.friend_ids = friend_ids
         self.expense_id = expense_id
@@ -41,12 +41,12 @@ class Transaction:
             Transaction.__data[user_id] = expenses
 
     @staticmethod
-    def get_user_data(user_id: int):
-        return Transaction.__data.get(user_id)
-
-    @staticmethod
     def get_all_data():
         return Transaction.__data
+
+    @staticmethod
+    def get_user_data(user_id: int):
+        return Transaction.__data.get(user_id)
 
 
 class Balance:
@@ -54,7 +54,7 @@ class Balance:
     __num: int = 1
 
     def __init__(self, payee_id, friend_ids, amounts):
-        self.transaction_id = Balance.__num
+        self.uid = Balance.__num
         self.payee_id = payee_id
         self.friend_ids = friend_ids
         self.amounts = amounts
@@ -68,8 +68,16 @@ class Balance:
             Balance.__data[self.payee_id] = balance
 
             balance = Balance.__data.get(friend_id, {})
-            balance[friend_id] = balance.get(self.payee_id, 0) + amount
-            Balance.__data[self.payee_id] = balance
+            balance[self.payee_id] = balance.get(self.payee_id, 0) + amount
+            Balance.__data[friend_id] = balance
+
+    @staticmethod
+    def get_all_data():
+        return Balance.__data
+
+    @staticmethod
+    def get_user_data(user_id):
+        return Balance.get_all_data().get(user_id)
 
 
 class Expense:
@@ -100,7 +108,7 @@ class Expense:
                 is not equally distributed (default: {None})
         """
         # create expense id
-        self.expense_id = Expense.__num
+        self.uid = Expense.__num
 
         self.title = title
         self.payee_id = payee_id
@@ -114,12 +122,12 @@ class Expense:
         self.__validate()
 
         # calculate amount per friend
-        amounts = self.calculate_amounts()
+        amounts = self.__calculate_amounts()
 
         Expense.__num += 1
 
         # add transaction
-        Transaction(payee_id, friend_ids, self.expense_id)
+        Transaction(payee_id, friend_ids, self.uid)
         # add balance
         Balance(payee_id, friend_ids, amounts)
         # update expense data
@@ -127,7 +135,7 @@ class Expense:
 
     def __add(self):
         """update expenses"""
-        self.__data[self.expense_id] = self
+        self.__data[self.uid] = self
 
     def __validate(self):
         # TODO: use custom exceptions
@@ -166,7 +174,7 @@ class Expense:
         # check valid expense type
         # raise Exception('Invalid expense type - {}'.format(self.expense_type))
 
-    def calculate_amounts(self):
+    def __calculate_amounts(self):
         if self.expense_type == 'equal':
             num_friends = len(self.friend_ids)
             return [self.total_amount * round(1.0 / num_friends, 2)] * num_friends
@@ -185,6 +193,17 @@ class Expense:
                 self.total_amount * round(share / share_total, 2) for share in self.shares
             ]
 
+    @staticmethod
+    def get_all_data():
+        return Expense.__data
+
+    @staticmethod
+    def get_by_id(expense_id):
+        return Expense.get_all_data().get(expense_id)
+
+    def __repr__(self):
+        return '<Expense {}: {}>'.format(self.uid, self.title)
+
 
 class User:
     __num = 1
@@ -192,7 +211,7 @@ class User:
 
     def __init__(self, name: str, phone_number: str = None, email: str = None):
         # assign id
-        self.user_id = User.__num
+        self.uid = User.__num
 
         self.name = name
         self.phone_number = phone_number
@@ -201,7 +220,7 @@ class User:
         # TODO: sanitize input
 
         # store user
-        User.__data[self.user_id] = self
+        User.__data[self.uid] = self
         User.__num += 1
 
     @staticmethod
@@ -212,23 +231,46 @@ class User:
     def is_valid(user_id: int):
         return user_id in User.__data
 
-    def add_expense(self, *args, **kwargs):
-        Expense(*args, **kwargs)
+    # DOUBT: how to sync args??
+    def add_expense(
+            self,
+            title: str,
+            payee_id: int,
+            friend_ids: list,
+            total_amount: float,
+            expense_type: str = 'equal',
+            shares: list = None
+    ) -> Expense:
+        return Expense(
+            title,
+            payee_id,
+            friend_ids,
+            total_amount,
+            expense_type,
+            shares
+        )
 
     def __repr__(self):
-        return '<User {} : {}>'.format(self.user_id, self.name)
+        return '<User {} : {}>'.format(self.uid, self.name)
 
 
 # add users
-n = 4
+n = 5
 users = []
 for i in range(1, n+1):
     user = User('username {}'.format(i))
     users.append(user)
 print(users)
-# add expenses
-# add_expense(1, [2], 100)
-# add_expense(2, [3], 100)
-# print(balance)
-# add_expense(3, [2, 4], 1000, 'percentage', [25, 75])
-# print(balance)
+friend_ids = list(map(lambda user: user.uid, users[1:4]))
+test_user = users[0]
+test_user.add_expense('uber', test_user.uid, friend_ids, 200)
+
+print('\n-------- Expenses --------------')
+print(Expense.get_all_data())
+print('----------------------------------')
+print('\n-------- Balances --------------')
+print(Balance.get_all_data())
+print('----------------------------------')
+print('\n-------- Transactions ----------')
+print(Transaction.get_all_data())
+print('----------------------------------')
