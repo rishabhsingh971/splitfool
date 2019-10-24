@@ -177,7 +177,7 @@ class Expense:
     def __calculate_amounts(self):
         if self.expense_type == 'equal':
             num_friends = len(self.friend_ids)
-            return [self.total_amount * round(1.0 / num_friends, 2)] * num_friends
+            return [self.total_amount * round(1.0 / num_friends, 4)] * num_friends
 
         if self.expense_type == 'percentage':
             return [
@@ -250,27 +250,11 @@ class User:
             shares
         )
 
+    def get_balance(self):
+        return Balance.get_user_data(self.uid)
+
+    def get_transactions(self):
+        return Transaction.get_user_data(self.uid)
+
     def __repr__(self):
         return '<User {} : {}>'.format(self.uid, self.name)
-
-
-# add users
-n = 5
-users = []
-for i in range(1, n+1):
-    user = User('username {}'.format(i))
-    users.append(user)
-print(users)
-friend_ids = list(map(lambda user: user.uid, users[1:4]))
-test_user = users[0]
-test_user.add_expense('uber', test_user.uid, friend_ids, 200)
-
-print('\n-------- Expenses --------------')
-print(Expense.get_all_data())
-print('----------------------------------')
-print('\n-------- Balances --------------')
-print(Balance.get_all_data())
-print('----------------------------------')
-print('\n-------- Transactions ----------')
-print(Transaction.get_all_data())
-print('----------------------------------')
