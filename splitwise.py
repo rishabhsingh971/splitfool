@@ -239,15 +239,21 @@ class User:
 
 
 # add users
-n = 4
+n = 5
 users = []
 for i in range(1, n+1):
     user = User('username {}'.format(i))
     users.append(user)
 print(users)
-# add expenses
-# add_expense(1, [2], 100)
-# add_expense(2, [3], 100)
-# print(balance)
-# add_expense(3, [2, 4], 1000, 'percentage', [25, 75])
-# print(balance)
+friend_ids = list(map(lambda user: user.uid, users[1:4]))
+Expense('uber', users[0].uid, friend_ids, 200)
+
+print('\n-------- Expenses --------------')
+print(Expense.get_all_data())
+print('----------------------------------')
+print('\n-------- Balances --------------')
+print(Balance.get_all_data())
+print('----------------------------------')
+print('\n-------- Transactions ----------')
+print(Transaction.get_all_data())
+print('----------------------------------')
