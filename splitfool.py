@@ -231,8 +231,24 @@ class User:
     def is_valid(user_id: int):
         return user_id in User.__data
 
-    # def add_expense(self, *args, **kwargs):
-    #     Expense(*args, **kwargs)
+    # DOUBT: how to sync args??
+    def add_expense(
+            self,
+            title: str,
+            payee_id: int,
+            friend_ids: list,
+            total_amount: float,
+            expense_type: str = 'equal',
+            shares: list = None
+    ) -> Expense:
+        return Expense(
+            title,
+            payee_id,
+            friend_ids,
+            total_amount,
+            expense_type,
+            shares
+        )
 
     def __repr__(self):
         return '<User {} : {}>'.format(self.uid, self.name)
@@ -246,7 +262,8 @@ for i in range(1, n+1):
     users.append(user)
 print(users)
 friend_ids = list(map(lambda user: user.uid, users[1:4]))
-Expense('uber', users[0].uid, friend_ids, 200)
+test_user = users[0]
+test_user.add_expense('uber', test_user.uid, friend_ids, 200)
 
 print('\n-------- Expenses --------------')
 print(Expense.get_all_data())
