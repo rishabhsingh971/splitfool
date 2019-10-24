@@ -122,7 +122,7 @@ class Expense:
         self.__validate()
 
         # calculate amount per friend
-        amounts = self.calculate_amounts()
+        amounts = self.__calculate_amounts()
 
         Expense.__num += 1
 
@@ -174,7 +174,7 @@ class Expense:
         # check valid expense type
         # raise Exception('Invalid expense type - {}'.format(self.expense_type))
 
-    def calculate_amounts(self):
+    def __calculate_amounts(self):
         if self.expense_type == 'equal':
             num_friends = len(self.friend_ids)
             return [self.total_amount * round(1.0 / num_friends, 2)] * num_friends
