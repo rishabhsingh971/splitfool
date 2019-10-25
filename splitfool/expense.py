@@ -1,83 +1,16 @@
+from datetime import datetime
+
+from .balance import Balance
+from .transaction import Transaction
+
 # from enum import Enum, unique, auto
 
-from datetime import datetime
 # @unique
 # class ExpenseType(Enum):
 #     EQUAL = 'equal'
 #     EXACT = 'exact'
 #     PERCENTAGE = 'percentage'
 #     PARTS = 'parts'
-
-# class InvalidFriendIDsException(Exception):
-#     pass
-
-
-# class InvalidSharesException(Exception):
-#     pass
-
-
-# class InvalidAmountException(Exception):
-#     pass
-
-class Transaction:
-    __data: dict = {}
-    __num: int = 1
-
-    def __init__(self, payee_id: int, friend_ids: int, expense_id: int):
-        self.uid = Transaction.__num
-        self.payee_id = payee_id
-        self.friend_ids = friend_ids
-        self.expense_id = expense_id
-
-        # update transaction
-        self.__add()
-        Transaction.__num += 1
-
-    def __add(self):
-        # should be atomic
-        for user_id in [self.payee_id, *self.friend_ids]:
-            expenses = Transaction.__data.get(user_id, [])
-            expenses.append(self.expense_id)
-            Transaction.__data[user_id] = expenses
-
-    @staticmethod
-    def get_all_data():
-        return Transaction.__data
-
-    @staticmethod
-    def get_user_data(user_id: int):
-        return Transaction.__data.get(user_id)
-
-
-class Balance:
-    __data: dict = {}
-    __num: int = 1
-
-    def __init__(self, payee_id, friend_ids, amounts):
-        self.uid = Balance.__num
-        self.payee_id = payee_id
-        self.friend_ids = friend_ids
-        self.amounts = amounts
-        self.__add()
-        Balance.__num += 1
-
-    def __add(self):
-        for friend_id, amount in zip(self.friend_ids, self.amounts):
-            balance = Balance.__data.get(self.payee_id, {})
-            balance[friend_id] = balance.get(friend_id, 0) - amount
-            Balance.__data[self.payee_id] = balance
-
-            balance = Balance.__data.get(friend_id, {})
-            balance[self.payee_id] = balance.get(self.payee_id, 0) + amount
-            Balance.__data[friend_id] = balance
-
-    @staticmethod
-    def get_all_data():
-        return Balance.__data
-
-    @staticmethod
-    def get_user_data(user_id):
-        return Balance.get_all_data().get(user_id)
 
 
 class Expense:
@@ -143,10 +76,6 @@ class Expense:
             raise Exception('No friends specified')
         if self.total_amount <= 0:
             raise Exception('Invalid amount - {}'.format(self.total_amount))
-        for friend_id in self.friend_ids:
-            if User.is_valid(friend_id):
-                continue
-            raise Exception('Invalid friend user id - {}'.format(friend_id))
 
         if self.expense_type == 'equal':
             return
@@ -203,58 +132,3 @@ class Expense:
 
     def __repr__(self):
         return '<Expense {}: {}>'.format(self.uid, self.title)
-
-
-class User:
-    __num = 1
-    __data = {}
-
-    def __init__(self, name: str, phone_number: str = None, email: str = None):
-        # assign id
-        self.uid = User.__num
-
-        self.name = name
-        self.phone_number = phone_number
-        self.email = email
-
-        # TODO: sanitize input
-
-        # store user
-        User.__data[self.uid] = self
-        User.__num += 1
-
-    @staticmethod
-    def get_user_by_id(user_id: int):
-        return User.__data.get(user_id)
-
-    @staticmethod
-    def is_valid(user_id: int):
-        return user_id in User.__data
-
-    # DOUBT: how to sync args??
-    def add_expense(
-            self,
-            title: str,
-            payee_id: int,
-            friend_ids: list,
-            total_amount: float,
-            expense_type: str = 'equal',
-            shares: list = None
-    ) -> Expense:
-        return Expense(
-            title,
-            payee_id,
-            friend_ids,
-            total_amount,
-            expense_type,
-            shares
-        )
-
-    def get_balance(self):
-        return Balance.get_user_data(self.uid)
-
-    def get_transactions(self):
-        return Transaction.get_user_data(self.uid)
-
-    def __repr__(self):
-        return '<User {} : {}>'.format(self.uid, self.name)

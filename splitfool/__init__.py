@@ -1,1 +1,1 @@
-from .splitfool import *
+from .user import User
