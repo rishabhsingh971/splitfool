@@ -1,16 +1,16 @@
 from datetime import datetime
+from enum import Enum, auto, unique
 
 from .balance import Balance
 from .transaction import Transaction
 
-# from enum import Enum, unique, auto
 
-# @unique
-# class ExpenseType(Enum):
-#     EQUAL = 'equal'
-#     EXACT = 'exact'
-#     PERCENTAGE = 'percentage'
-#     PARTS = 'parts'
+@unique
+class ExpenseType(Enum):
+    EQUAL = auto()
+    EXACT = auto()
+    PERCENTAGE = auto()
+    PARTS = auto()
 
 
 class Expense:
@@ -24,7 +24,7 @@ class Expense:
             payee_id: int,
             friend_ids: list,
             total_amount: float,
-            expense_type: str = 'equal',
+            expense_type: ExpenseType = ExpenseType.EQUAL,
             shares: list = None
     ):
         """add expense
@@ -36,7 +36,7 @@ class Expense:
             total_amount {float} -- total amount
 
         Keyword Arguments:
-            expense_type {str} -- type of expense (default: {'equal'})
+            expense_type {ExpenseType} -- type of expense (default: {ExpenseType.EQUAL})
             shares {list} -- share of each friend in case expense
                 is not equally distributed (default: {None})
         """
@@ -76,8 +76,11 @@ class Expense:
             raise Exception('No friends specified')
         if self.total_amount <= 0:
             raise Exception('Invalid amount - {}'.format(self.total_amount))
-
-        if self.expense_type == 'equal':
+        # check valid expense type
+        if not isinstance(self.expense_type, ExpenseType):
+            raise Exception(
+                'Invalid expense type - {}'.format(self.expense_type))
+        if self.expense_type == ExpenseType.EQUAL:
             return
 
         if len(self.friend_ids) != len(self.shares):
@@ -93,30 +96,27 @@ class Expense:
                 )
             share_sum += share
 
-        if self.expense_type == 'percentage' and share_sum > 100:
+        if self.expense_type == ExpenseType.PERCENTAGE and share_sum > 100:
             raise Exception('Invalid total percentage - {}'.format(share_sum))
 
-        if self.expense_type == 'exact' and share_sum != self.total_amount:
+        if self.expense_type == ExpenseType.EXACT and share_sum != self.total_amount:
             raise Exception('Sum of shares should be equal to total amount, {} != {}'.format(
                 share_sum, self.total_amount))
 
-        # check valid expense type
-        # raise Exception('Invalid expense type - {}'.format(self.expense_type))
-
     def __calculate_amounts(self):
-        if self.expense_type == 'equal':
+        if self.expense_type == ExpenseType.EQUAL:
             num_friends = len(self.friend_ids)
             return [self.total_amount * round(1.0 / num_friends, 4)] * num_friends
 
-        if self.expense_type == 'percentage':
+        if self.expense_type == ExpenseType.PERCENTAGE:
             return [
                 self.total_amount * round(share / 100, 2) for share in self.shares
             ]
 
-        if self.expense_type == 'exact':
+        if self.expense_type == ExpenseType.EXACT:
             return self.shares
 
-        if self.expense_type == 'parts':
+        if self.expense_type == ExpenseType.PARTS:
             share_total = sum(share_total) * 1.0
             return [
                 self.total_amount * round(share / share_total, 2) for share in self.shares
