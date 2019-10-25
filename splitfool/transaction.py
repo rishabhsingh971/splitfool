@@ -15,9 +15,9 @@ class Transaction:
     def __add(self):
         # should be atomic
         for user_id in [self.payee_id, *self.friend_ids]:
-            expenses = Transaction.__data.get(user_id, [])
-            expenses.append(self.expense_id)
-            Transaction.__data[user_id] = expenses
+            expense_ids = Transaction.__data.get(user_id, [])
+            expense_ids.append(self.expense_id)
+            Transaction.__data[user_id] = expense_ids
 
     @staticmethod
     def get_all_data():
