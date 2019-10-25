@@ -126,7 +126,7 @@ class Expense:
             return self.shares
 
         if self.expense_type == ExpenseType.PARTS:
-            share_total = sum(share_total) * 1.0
+            share_total = sum(self.shares) * 1.0
             return [
                 self.total_amount * round(share / share_total, 2) for share in self.shares
             ]
