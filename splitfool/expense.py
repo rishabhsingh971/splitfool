@@ -2,6 +2,7 @@ from datetime import datetime
 from enum import Enum, auto, unique
 
 from .balance import Balance
+from .errors import *
 from .transaction import Transaction
 
 
@@ -71,37 +72,45 @@ class Expense:
         self.__data[self.uid] = self
 
     def __validate(self):
-        # TODO: use custom exceptions
         if not self.friend_ids:
-            raise Exception('No friends specified')
+            raise InvalidFriendIDsError('No friends specified')
         if self.total_amount <= 0:
-            raise Exception('Invalid amount - {}'.format(self.total_amount))
+            raise InvalidAmountError(
+                'Invalid amount - {}'.format(self.total_amount)
+            )
         # check valid expense type
         if not isinstance(self.expense_type, ExpenseType):
-            raise Exception(
-                'Invalid expense type - {}'.format(self.expense_type))
+            raise InvalidExpenseTypeError(
+                'Invalid expense type - {}'.format(self.expense_type)
+            )
         if self.expense_type == ExpenseType.EQUAL:
             return
 
         if len(self.friend_ids) != len(self.shares):
-            raise Exception('Number of friends and shares must be equal')
+            raise InvalidSharesError(
+                'Number of shares must by equal to number of friends'
+            )
         if not self.shares:
-            raise Exception('Share of any friend is not given')
+            raise InvalidSharesError('Share of any friend is not given')
         share_sum = 0
         for idx, share in enumerate(self.shares):
             if share < 0:
-                raise Exception(
+                raise InvalidSharesError(
                     'Invalid share - {}, for user id - {}'.format(
                         share, self.friend_ids[idx])
                 )
             share_sum += share
 
         if self.expense_type == ExpenseType.PERCENTAGE and share_sum > 100:
-            raise Exception('Invalid total percentage - {}'.format(share_sum))
+            raise InvalidSharesError(
+                'Invalid total percentage - {}'.format(share_sum)
+            )
 
         if self.expense_type == ExpenseType.EXACT and share_sum != self.total_amount:
-            raise Exception('Sum of shares should be equal to total amount, {} != {}'.format(
-                share_sum, self.total_amount))
+            raise InvalidSharesError(
+                'Sum of shares should be equal to total amount, {} != {}'.format(
+                    share_sum, self.total_amount)
+            )
 
     def __calculate_amounts(self):
         if self.expense_type == ExpenseType.EQUAL:
@@ -132,3 +141,4 @@ class Expense:
 
     def __repr__(self):
         return '<Expense {}: {}>'.format(self.uid, self.title)
+
