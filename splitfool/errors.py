@@ -1,10 +1,18 @@
-# class InvalidFriendIDsException(Exception):
-#     pass
+class BaseError(Exception):
+    pass
 
 
-# class InvalidSharesException(Exception):
-#     pass
+class InvalidFriendIDsError(BaseError):
+    pass
 
 
-# class InvalidAmountException(Exception):
-#     pass
+class InvalidSharesError(BaseError):
+    pass
+
+
+class InvalidAmountError(BaseError):
+    pass
+
+
+class InvalidExpenseTypeError(BaseError):
+    pass
