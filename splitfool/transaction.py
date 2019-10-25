@@ -26,3 +26,7 @@ class Transaction:
     @staticmethod
     def get_user_data(user_id: int):
         return Transaction.__data.get(user_id)
+
+    @staticmethod
+    def __reset():
+        Transaction.__data.clear()

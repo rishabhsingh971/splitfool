@@ -139,6 +139,9 @@ class Expense:
     def get_by_id(expense_id):
         return Expense.get_all_data().get(expense_id)
 
+    @staticmethod
+    def __reset():
+        Expense.__data.clear()
+
     def __repr__(self):
         return '<Expense {}: {}>'.format(self.uid, self.title)
-

@@ -27,3 +27,7 @@ class Balance:
     @staticmethod
     def get_user_data(user_id):
         return Balance.get_all_data().get(user_id)
+
+    @staticmethod
+    def __reset():
+        Balance.__data.clear()

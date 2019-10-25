@@ -46,7 +46,7 @@ class User:
             raise InvalidFriendIDsError(
                 'Invalid friend user id - {}'.format(friend_id)
             )
-        return Expense(
+        Expense(
             title,
             payee_id,
             friend_ids,
@@ -60,6 +60,10 @@ class User:
 
     def get_transactions(self):
         return Transaction.get_user_data(self.uid)
+
+    @staticmethod
+    def __reset():
+        User.__data.clear()
 
     def __repr__(self):
         return '<User {} : {}>'.format(self.uid, self.name)
