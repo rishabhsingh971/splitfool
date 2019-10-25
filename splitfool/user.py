@@ -1,5 +1,6 @@
 from .balance import Balance
 from .expense import Expense
+from .errors import InvalidFriendIDsError
 from .transaction import Transaction
 
 
@@ -42,7 +43,9 @@ class User:
         for friend_id in friend_ids:
             if User.is_valid(friend_id):
                 continue
-            raise Exception('Invalid friend user id - {}'.format(friend_id))
+            raise InvalidFriendIDsError(
+                'Invalid friend user id - {}'.format(friend_id)
+            )
         return Expense(
             title,
             payee_id,
