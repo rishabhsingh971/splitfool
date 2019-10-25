@@ -1,5 +1,5 @@
 from .balance import Balance
-from .expense import Expense
+from .expense import Expense, ExpenseType
 from .errors import InvalidFriendIDsError
 from .transaction import Transaction
 
@@ -37,7 +37,7 @@ class User:
             payee_id: int,
             friend_ids: list,
             total_amount: float,
-            expense_type: str = 'equal',
+            expense_type: ExpenseType = ExpenseType.EQUAL,
             shares: list = None
     ) -> Expense:
         for friend_id in friend_ids:
