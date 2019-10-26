@@ -24,6 +24,17 @@ class TestEqualExpense(unittest.TestCase):
             1: -66.66, 2: -66.66, 3: -66.66
         })
 
+    def test_self_expense(self):
+        self.user.add_equal_expense(
+            title='expense equal',
+            payee_id=self.user.uid,
+            friend_ids=[*self.friend_ids, self.user.uid],
+            total_amount=200
+        )
+        self.assertDictEqual(self.user.get_balance(), {
+            1: -50.0, 2: -50.0, 3: -50.0
+        })
+
 
 class TestExactExpense(unittest.TestCase):
     def setUp(self):
