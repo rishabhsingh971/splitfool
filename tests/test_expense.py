@@ -39,7 +39,7 @@ class TestEqualExpense(TestExpense):
             friend_ids=self.friend_ids,
         )
         self.assertDictEqual(self.user.get_balance(), {
-            1: -66.66, 2: -66.66, 3: -66.66
+            1: -66.66, 2: -66.67, 3: -66.67
         })
         self.check_last_expense(props)
 
