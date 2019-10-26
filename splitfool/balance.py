@@ -10,6 +10,8 @@ class Balance(DictModel):
 
     def __add(self):
         for friend_id, amount in self.amounts.items():
+            if friend_id == self.payee_id:
+                continue
             balance = Balance.get_data(self.payee_id, {})
             balance[friend_id] = balance.get(friend_id, 0) - amount
             Balance._set_data(self.payee_id, balance)
