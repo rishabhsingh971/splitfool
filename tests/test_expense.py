@@ -91,7 +91,7 @@ class TestPartsExpense(TestExpense):
             **props
         )
         self.assertDictEqual(self.user.get_balance(), {
-            1: -132.0, 2: -258.0, 3: -210.0
+            1: -130.43, 2: -260.87, 3: -208.7
         })
         self.check_last_expense(props)
 
