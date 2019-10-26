@@ -119,7 +119,7 @@ class User(DictModel):
         return Transaction.get_user_data(self.uid)
 
     @staticmethod
-    def get_all_balances(self):
+    def get_all_balances():
         return Balance.get_all_data()
 
     @staticmethod
