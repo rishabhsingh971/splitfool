@@ -3,11 +3,8 @@ from splitfool import User
 
 
 class TestEqualExpense(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        User._reset_all()
-
     def setUp(self):
+        User._reset_all()
         n = 5
         users = []
         for i in range(1, n+1):
@@ -29,11 +26,8 @@ class TestEqualExpense(unittest.TestCase):
 
 
 class TestExactExpense(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        User._reset_all()
-
     def setUp(self):
+        User._reset_all()
         n = 5
         users = []
         for i in range(1, n+1):
@@ -56,11 +50,8 @@ class TestExactExpense(unittest.TestCase):
 
 
 class TestPartsExpense(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        User._reset_all()
-
     def setUp(self):
+        User._reset_all()
         n = 5
         users = []
         for i in range(1, n+1):
@@ -83,11 +74,8 @@ class TestPartsExpense(unittest.TestCase):
 
 
 class TestPercentageExpense(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        User._reset_all()
-
     def setUp(self):
+        User._reset_all()
         n = 5
         users = []
         for i in range(1, n+1):
