@@ -27,7 +27,7 @@ class User(DictModel):
         return user_id in User.get_all_data()
 
     # DOUBT: how to sync args??
-    def add_expense(
+    def __add_expense(
             self,
             title: str,
             payee_id: int,
@@ -49,6 +49,73 @@ class User(DictModel):
             total_amount,
             expense_type,
             shares
+        )
+
+    def add_equal_expense(
+            self,
+            title: str,
+            payee_id: int,
+            friend_ids: list,
+            total_amount: float,
+    ) -> Expense:
+        self.__add_expense(
+            title=title,
+            payee_id=payee_id,
+            friend_ids=friend_ids,
+            total_amount=total_amount,
+            expense_type=ExpenseType.EQUAL,
+            shares=None,
+        )
+
+    def add_exact_expense(
+            self,
+            title: str,
+            payee_id: int,
+            friend_ids: list,
+            total_amount: float,
+            shares: list,
+    ) -> Expense:
+        self.__add_expense(
+            title=title,
+            payee_id=payee_id,
+            friend_ids=friend_ids,
+            total_amount=total_amount,
+            expense_type=ExpenseType.EXACT,
+            shares=shares,
+        )
+
+    def add_parts_expense(
+            self,
+            title: str,
+            payee_id: int,
+            friend_ids: list,
+            total_amount: float,
+            shares: list,
+    ) -> Expense:
+        self.__add_expense(
+            title=title,
+            payee_id=payee_id,
+            friend_ids=friend_ids,
+            total_amount=total_amount,
+            expense_type=ExpenseType.PARTS,
+            shares=shares,
+        )
+
+    def add_percentage_expense(
+            self,
+            title: str,
+            payee_id: int,
+            friend_ids: list,
+            total_amount: float,
+            shares: list,
+    ) -> Expense:
+        self.__add_expense(
+            title=title,
+            payee_id=payee_id,
+            friend_ids=friend_ids,
+            total_amount=total_amount,
+            expense_type=ExpenseType.PERCENTAGE,
+            shares=shares,
         )
 
     def get_balance(self):

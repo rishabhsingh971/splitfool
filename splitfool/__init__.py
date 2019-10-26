@@ -1,1 +1,1 @@
-from .user import User, ExpenseType
+from .user import User

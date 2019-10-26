@@ -1,5 +1,5 @@
 import unittest
-from splitfool import User, ExpenseType
+from splitfool import User
 
 
 class TestEqualExpense(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestEqualExpense(unittest.TestCase):
         self.user = users[0]
 
     def test_equal_expense(self):
-        self.user.add_expense(
+        self.user.add_equal_expense(
             'expense equal',
             self.user.uid,
             self.friend_ids,
@@ -44,12 +44,11 @@ class TestExactExpense(unittest.TestCase):
 
     def test_exact_expense(self):
         shares = [100, 300, 200]
-        self.user.add_expense(
+        self.user.add_exact_expense(
             'expense exact',
             self.user.uid,
             self.friend_ids,
             600,
-            ExpenseType.EXACT,
             shares
         )
         self.assertDictEqual(self.user.get_balance(), {
@@ -73,12 +72,11 @@ class TestPartsExpense(unittest.TestCase):
 
     def test_parts_expense(self):
         shares = [50, 100, 80]
-        self.user.add_expense(
+        self.user.add_parts_expense(
             'expense exact',
             self.user.uid,
             self.friend_ids,
             600,
-            ExpenseType.PARTS,
             shares
         )
         self.assertDictEqual(self.user.get_balance(), {
@@ -102,12 +100,11 @@ class TestPercentageExpense(unittest.TestCase):
 
     def test_percentage_expense(self):
         shares = [25, 25, 50]
-        self.user.add_expense(
+        self.user.add_percentage_expense(
             'expense exact',
             self.user.uid,
             self.friend_ids,
             600,
-            ExpenseType.PERCENTAGE,
             shares
         )
         self.assertDictEqual(self.user.get_balance(), {
