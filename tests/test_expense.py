@@ -2,7 +2,7 @@ import unittest
 from splitfool import User
 
 
-class TestEqualExpense(unittest.TestCase):
+class TestExpense(unittest.TestCase):
     def setUp(self):
         User._reset_all()
         n = 5
@@ -13,9 +13,20 @@ class TestEqualExpense(unittest.TestCase):
         self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
 
+    def check_function(self, function_name):
+        self.assertTrue(hasattr(self.user, function_name))
+        self.assertTrue(callable(getattr(self.user, function_name)))
+
+    def check_last_expense(self, props):
+        last_expense = self.user.get_expenses()[-1]
+        for key, val in props.items():
+            self.assertIn(key, last_expense)
+            self.assertEqual(val, last_expense[key])
+
+
+class TestEqualExpense(TestExpense):
     def test_user_can_add_equal_expense(self):
-        self.assertTrue(hasattr(self.user, 'add_equal_expense'))
-        self.assertTrue(callable(getattr(self.user, 'add_equal_expense')))
+        self.check_function('add_equal_expense')
 
     def test_equal_expense(self):
         props = {
@@ -30,10 +41,7 @@ class TestEqualExpense(unittest.TestCase):
         self.assertDictEqual(self.user.get_balance(), {
             1: -66.66, 2: -66.66, 3: -66.66
         })
-        last_expense = self.user.get_expenses()[-1]
-        for key, val in props.items():
-            self.assertIn(key, last_expense)
-            self.assertEqual(val, last_expense[key])
+        self.check_last_expense(props)
 
     def test_self_expense(self):
         self.user.add_equal_expense(
@@ -47,19 +55,9 @@ class TestEqualExpense(unittest.TestCase):
         })
 
 
-class TestExactExpense(unittest.TestCase):
-    def setUp(self):
-        User._reset_all()
-        n = 5
-        users = []
-        for i in range(1, n+1):
-            user = User('username {}'.format(i))
-            users.append(user)
-        self.user = users[0]
-
+class TestExactExpense(TestExpense):
     def test_user_can_add_exact_expense(self):
-        self.assertTrue(hasattr(self.user, 'add_exact_expense'))
-        self.assertTrue(callable(getattr(self.user, 'add_exact_expense')))
+        self.check_function('add_exact_expense')
 
     def test_exact_expense(self):
         props = {
@@ -75,25 +73,12 @@ class TestExactExpense(unittest.TestCase):
         self.assertDictEqual(self.user.get_balance(), {
             1: -100, 2: -300, 3: -200
         })
-        last_expense = self.user.get_expenses()[-1]
-        for key, val in props.items():
-            self.assertIn(key, last_expense)
-            self.assertEqual(val, last_expense[key])
+        self.check_last_expense(props)
 
 
-class TestPartsExpense(unittest.TestCase):
-    def setUp(self):
-        User._reset_all()
-        n = 5
-        users = []
-        for i in range(1, n+1):
-            user = User('username {}'.format(i))
-            users.append(user)
-        self.user = users[0]
-
+class TestPartsExpense(TestExpense):
     def test_user_can_add_parts_expense(self):
-        self.assertTrue(hasattr(self.user, 'add_parts_expense'))
-        self.assertTrue(callable(getattr(self.user, 'add_parts_expense')))
+        self.check_function('add_parts_expense')
 
     def test_parts_expense(self):
         props = {
@@ -109,25 +94,12 @@ class TestPartsExpense(unittest.TestCase):
         self.assertDictEqual(self.user.get_balance(), {
             1: -132.0, 2: -258.0, 3: -210.0
         })
-        last_expense = self.user.get_expenses()[-1]
-        for key, val in props.items():
-            self.assertIn(key, last_expense)
-            self.assertEqual(val, last_expense[key])
+        self.check_last_expense(props)
 
 
-class TestPercentageExpense(unittest.TestCase):
-    def setUp(self):
-        User._reset_all()
-        n = 5
-        users = []
-        for i in range(1, n+1):
-            user = User('username {}'.format(i))
-            users.append(user)
-        self.user = users[0]
-
+class TestPercentageExpense(TestExpense):
     def test_user_can_add_percentage_expense(self):
-        self.assertTrue(hasattr(self.user, 'add_percentage_expense'))
-        self.assertTrue(callable(getattr(self.user, 'add_percentage_expense')))
+        self.check_function('add_percentage_expense')
 
     def test_percentage_expense(self):
         props = {
@@ -143,10 +115,7 @@ class TestPercentageExpense(unittest.TestCase):
         self.assertDictEqual(self.user.get_balance(), {
             1: -150.0, 2: -150.0, 3: -300.0
         })
-        last_expense = self.user.get_expenses()[-1]
-        for key, val in props.items():
-            self.assertIn(key, last_expense)
-            self.assertEqual(val, last_expense[key])
+        self.check_last_expense(props)
 
 
 if __name__ == '__main__':
