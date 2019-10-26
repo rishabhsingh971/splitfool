@@ -120,6 +120,7 @@ class Expense(DictModel):
             }
 
         amount_sum = sum(amounts.values())
+        delta = 0
         if amount_sum != self.total_amount:
             delta = round(self.total_amount - amount_sum, 2)
         kind_user_id = next(iter(amounts))
