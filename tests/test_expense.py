@@ -10,7 +10,6 @@ class TestExpense(unittest.TestCase):
         for i in range(1, n+1):
             user = User('username {}'.format(i))
             users.append(user)
-        self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
 
     def check_function(self, function_name):
@@ -36,7 +35,7 @@ class TestEqualExpense(TestExpense):
         }
         self.user.add_equal_expense(
             **props,
-            friend_ids=self.friend_ids,
+            friend_ids=[1, 2, 3],
         )
         self.assertDictEqual(self.user.get_balance(), {
             1: -66.66, 2: -66.67, 3: -66.67
@@ -47,7 +46,7 @@ class TestEqualExpense(TestExpense):
         self.user.add_equal_expense(
             title='expense equal',
             payee_id=self.user.uid,
-            friend_ids=[*self.friend_ids, self.user.uid],
+            friend_ids=[1, 2, 3, self.user.uid],
             total_amount=200
         )
         self.assertDictEqual(self.user.get_balance(), {
