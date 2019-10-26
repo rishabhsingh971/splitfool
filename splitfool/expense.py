@@ -123,4 +123,4 @@ class Expense(DictModel):
         return Expense.get_data(expense_id)
 
     def __repr__(self):
-        return '<Expense {}: {}>'.format(self.uid, self.title)
+        return '<Expense {}: {}: {}>'.format(self.uid, self.expense_type.name, self.title)
