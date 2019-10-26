@@ -33,8 +33,10 @@ class Balance(DictModel):
 
     @staticmethod
     def get_all_data():
-        data = Balance._get_all_data().copy()
-        for user_id, user_data in data.items():
+        all_data = Balance._get_all_data()
+        data = {}
+        for user_id, user_data in all_data.items():
+            data[user_id] = {}
             for friend_id, amount in user_data.items():
                 data[user_id][friend_id] = amount / 100.0
         return data
