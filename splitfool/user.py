@@ -116,6 +116,10 @@ class User(DictModel):
         return Transaction.get_user_data(self.uid)
 
     @staticmethod
+    def get_all_balances(self):
+        return Balance.get_all_data()
+
+    @staticmethod
     def _reset_all():
         Balance._reset()
         Expense._reset()
