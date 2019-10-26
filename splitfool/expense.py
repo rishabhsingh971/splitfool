@@ -122,5 +122,13 @@ class Expense(DictModel):
     def get_by_id(expense_id):
         return Expense.get_data(expense_id)
 
+    @staticmethod
+    def get_user_data(user_id):
+        expenses = []
+        for expense_id in Transaction.get_user_data(user_id):
+            expense = Expense.get_by_id(expense_id)
+            expenses.append(expense)
+        return expenses
+
     def __repr__(self):
         return '<Expense {}: {}: {}>'.format(self.uid, self.expense_type.name, self.title)
