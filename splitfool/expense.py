@@ -98,31 +98,36 @@ class Expense(DictModel):
             )
 
     def __calculate_amounts(self):
+        # To maintain floating point precison of 2 and
+        # minimize floating point computations
+        total_amount = int(self.total_amount * 100)
         amounts = {}
         if self.expense_type == ExpenseType.EQUAL:
-            amount = round(self.total_amount / len(self.shares), 2)
+            amount = round(total_amount / len(self.shares))
             amounts = {
                 user_id: amount for user_id in self.shares
             }
 
         if self.expense_type == ExpenseType.PERCENTAGE:
             amounts = {
-                user_id: self.total_amount * round(share / 100, 2) for user_id, share in self.shares.items()
+                user_id: round(total_amount * share / 100) for user_id, share in self.shares.items()
             }
 
         if self.expense_type == ExpenseType.EXACT:
-            amounts = self.shares
+            amounts = {
+                user_id: int(share * 100) for user_id, share in self.shares.items()
+            }
 
         if self.expense_type == ExpenseType.PARTS:
-            share_total = sum(self.shares.values()) * 1.0
+            share_total = sum(self.shares.values())
             amounts = {
-                user_id: self.total_amount * round(share / share_total, 2) for user_id, share in self.shares.items()
+                user_id: round(total_amount * share / share_total) for user_id, share in self.shares.items()
             }
 
         amount_sum = sum(amounts.values())
         delta = 0
         if amount_sum != self.total_amount:
-            delta = round(self.total_amount - amount_sum, 2)
+            delta = total_amount - amount_sum
         kind_user_id = next(iter(amounts))
         amounts[kind_user_id] += delta
         return amounts
