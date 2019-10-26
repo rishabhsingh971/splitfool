@@ -98,25 +98,33 @@ class Expense(DictModel):
             )
 
     def __calculate_amounts(self):
+        amounts = {}
         if self.expense_type == ExpenseType.EQUAL:
-            amount = self.total_amount * round(1.0 / len(self.shares), 4)
-            return {
+            amount = round(self.total_amount / len(self.shares), 2)
+            amounts = {
                 user_id: amount for user_id in self.shares
             }
 
         if self.expense_type == ExpenseType.PERCENTAGE:
-            return {
+            amounts = {
                 user_id: self.total_amount * round(share / 100, 2) for user_id, share in self.shares.items()
             }
 
         if self.expense_type == ExpenseType.EXACT:
-            return self.shares
+            amounts = self.shares
 
         if self.expense_type == ExpenseType.PARTS:
             share_total = sum(self.shares.values()) * 1.0
-            return {
+            amounts = {
                 user_id: self.total_amount * round(share / share_total, 2) for user_id, share in self.shares.items()
             }
+
+        amount_sum = sum(amounts.values())
+        if amount_sum != self.total_amount:
+            delta = round(self.total_amount - amount_sum, 2)
+        kind_user_id = next(iter(amounts))
+        amounts[kind_user_id] += delta
+        return amounts
 
     @staticmethod
     def get_by_id(expense_id):
