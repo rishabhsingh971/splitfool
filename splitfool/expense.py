@@ -134,7 +134,7 @@ class Expense(DictModel):
 
     @staticmethod
     def get_by_id(expense_id):
-        return Expense.get_data(expense_id)
+        return Expense._get_data(expense_id)
 
     @staticmethod
     def get_user_data(user_id):
