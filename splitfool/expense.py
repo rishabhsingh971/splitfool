@@ -60,7 +60,7 @@ class Expense(DictModel):
 
     def __add(self):
         """update expenses"""
-        self._set_data(self.uid, self)
+        self._set_data(self.uid, self.__dict__)
 
     def __validate(self):
         if not self.shares:
