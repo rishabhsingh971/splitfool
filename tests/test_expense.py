@@ -117,5 +117,65 @@ class TestPercentageExpense(TestExpense):
         self.check_last_expense(props)
 
 
+class TestMultipleExpense(TestExpense):
+    def test_multiple_expense(self):
+        self.user.add_equal_expense(
+            'eq exp',
+            0,
+            440,
+            [1, 2, 3]
+        )
+        self.user.add_exact_expense(
+            'ex exp',
+            2,
+            600,
+            {
+                0: 150,
+                1: 100,
+                2: 200,
+                4: 150
+            }
+        )
+        self.user.add_parts_expense(
+            'pa exp',
+            3,
+            600,
+            {
+                0: 3,
+                1: 1,
+                2: 2,
+            }
+        )
+        self.user.add_parts_expense(
+            'pe exp',
+            1,
+            400,
+            {
+                0: 40,
+                1: 20,
+                2: 10,
+                3: 15,
+                4: 15
+            }
+        )
+        self.assertDictEqual(self.user.get_balance(), {
+            1: 13.34, 2: 3.33, 3: 153.33
+        })
+        self.assertDictEqual(User.get_all_balances(), {
+            0: {1: 13.34, 2: 3.33, 3: 153.33},
+            1: {0: -13.34, 2: 60.0, 3: 40.0, 4: -60.0},
+            2: {0: -3.33, 1: -60.0, 4: -150.0, 3: 200.0},
+            3: {0: -153.33, 1: -40.0, 2: -200.0},
+            4: {2: 150.0, 1: 60.0}
+        })
+        self.assertDictEqual(User.get_all_balances_simplified(), {
+            0: {3: 170.0},
+            1: {3: 86.66, 4: -60.0},
+            2: {3: 136.67, 4: -150.0},
+            3: {0: -170.0, 1: -86.66, 2: -136.67},
+            4: {2: 150.0, 1: 60.0}
+        })
+
+
 if __name__ == '__main__':
     unittest.main()
