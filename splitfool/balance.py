@@ -40,3 +40,68 @@ class Balance(DictModel):
             for friend_id, amount in user_data.items():
                 data[user_id][friend_id] = amount / 100.0
         return data
+
+    @staticmethod
+    def get_all_data_simplified():
+        all_data = Balance._get_all_data()
+        data = {}
+        lender_ids = {}
+        for user_id, user_data in all_data.items():
+            data[user_id] = {}
+            lender_ids[user_id] = []
+            for friend_id, amount in user_data.items():
+                if amount <= 0:
+                    continue
+                lender_ids[user_id].append(friend_id)
+                data[user_id][friend_id] = amount
+
+        for user_id in data:
+            Balance.__simplify(data, user_id, lender_ids[user_id])
+
+        filtered_data = {}
+        for user_id, user_data in data.items():
+            if not user_data:
+                continue
+            filtered_data[user_id] = {}
+            for friend_id, amount in user_data.items():
+                filtered_data[user_id][friend_id] = amount / 100.0
+        return filtered_data
+
+    @staticmethod
+    def __simplify(data, user_id, lender_ids):
+        # check for transitive debt between lenders and simplify
+        n = len(lender_ids)
+        for i in range(n):
+            lidi = lender_ids[i]
+            for j in range(i+1, n):
+                lidj = lender_ids[j]
+                # if lender is removed
+                if lidi not in data[user_id]:
+                    break
+                # if lender-j owes lender-i, swap lender-j and lender-i
+                if lidi in data[lidj]:
+                    lidi, lidj = lidj, lidi
+                # no transitive debt
+                if not lidj in data[lidi]:
+                    continue
+                # 1--100--> 2--200--> 3       1         2--100--> 3
+                #  \                 /   =>    \                 /
+                #   -------300------            -------400-------
+                if data[user_id][lidi] < data[lidi][lidj]:
+                    data[user_id][lidj] += data[user_id][lidi]
+                    data[lidi][lidj] -= data[user_id][lidi]
+                    del data[user_id][lidi]
+                # 1--200--> 2--100--> 3       1--100--> 2         3
+                #  \                 /   =>    \                 /
+                #   -------300------            -------400-------
+                elif data[user_id][lidi] > data[lidi][lidj]:
+                    data[user_id][lidj] += data[lidi][lidj]
+                    data[user_id][lidi] -= data[lidi][lidj]
+                    del data[lidi][lidj]
+                # 1--100--> 2--100--> 3       1         2         3
+                #  \                 /   =>    \                 /
+                #   -------300------            -------400-------
+                else:
+                    data[user_id][lidj] += data[lidi][lidj]
+                    del data[user_id][lidi]
+                    del data[lidi][lidj]

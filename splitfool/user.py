@@ -123,6 +123,10 @@ class User(DictModel):
         return Balance.get_all_data()
 
     @staticmethod
+    def get_all_balances_simplified():
+        return Balance.get_all_data_simplified()
+
+    @staticmethod
     def _reset_all():
         Balance._reset()
         Expense._reset()
