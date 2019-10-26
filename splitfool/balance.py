@@ -14,10 +14,14 @@ class Balance(DictModel):
                 continue
             balance = Balance.get_data(self.payee_id, {})
             balance[friend_id] = balance.get(friend_id, 0) - amount
+            if balance[friend_id] == 0:
+                del balance[friend_id]
             Balance._set_data(self.payee_id, balance)
 
             balance = Balance.get_data(friend_id, {})
             balance[self.payee_id] = balance.get(self.payee_id, 0) + amount
+            if balance[self.payee_id] == 0:
+                del balance[self.payee_id]
             Balance._set_data(friend_id, balance)
 
     @staticmethod
