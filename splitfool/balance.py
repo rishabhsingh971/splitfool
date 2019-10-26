@@ -65,6 +65,9 @@ class Balance(DictModel):
             filtered_data[user_id] = {}
             for friend_id, amount in user_data.items():
                 filtered_data[user_id][friend_id] = amount / 100.0
+                if friend_id not in filtered_data:
+                    filtered_data[friend_id] = {}
+                filtered_data[friend_id][user_id] = -amount / 100.0
         return filtered_data
 
     @staticmethod
