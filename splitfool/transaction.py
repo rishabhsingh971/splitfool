@@ -13,7 +13,6 @@ class Transaction(DictModel):
 
     def __add(self):
         # should be atomic
-        print(Transaction.get_all_data())
         for user_id in [self.payee_id, *self.friend_ids]:
             expense_ids = self.get_data(user_id, [])
             expense_ids.append(self.expense_id)

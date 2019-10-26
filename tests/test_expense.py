@@ -23,8 +23,6 @@ class TestEqualExpense(unittest.TestCase):
             self.friend_ids,
             200
         )
-        print(self.user.get_all_data())
-        print(self.user.get_balance())
         self.assertDictEqual(self.user.get_balance(), {
             1: -66.66, 2: -66.66, 3: -66.66
         })
@@ -33,7 +31,6 @@ class TestEqualExpense(unittest.TestCase):
 class TestExactExpense(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        print('set up')
         User._reset_all()
 
     def setUp(self):
@@ -44,7 +41,6 @@ class TestExactExpense(unittest.TestCase):
             users.append(user)
         self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
-        print(self.user, self.friend_ids)
 
     def test_exact_expense(self):
         shares = [100, 300, 200]
@@ -64,7 +60,6 @@ class TestExactExpense(unittest.TestCase):
 class TestPartsExpense(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        print('set up')
         User._reset_all()
 
     def setUp(self):
@@ -75,7 +70,6 @@ class TestPartsExpense(unittest.TestCase):
             users.append(user)
         self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
-        print(self.user, self.friend_ids)
 
     def test_parts_expense(self):
         shares = [50, 100, 80]
@@ -95,7 +89,6 @@ class TestPartsExpense(unittest.TestCase):
 class TestPercentageExpense(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        print('set up')
         User._reset_all()
 
     def setUp(self):
@@ -106,7 +99,6 @@ class TestPercentageExpense(unittest.TestCase):
             users.append(user)
         self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
-        print(self.user, self.friend_ids)
 
     def test_percentage_expense(self):
         shares = [25, 25, 50]

@@ -1,5 +1,4 @@
 class DictModel:
-
     def __init__(self):
         self.uid = self._get_next_id()
 
@@ -23,5 +22,4 @@ class DictModel:
 
     @classmethod
     def _reset(cls):
-        print(cls)
         cls.get_all_data().clear()
