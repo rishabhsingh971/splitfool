@@ -13,6 +13,10 @@ class TestEqualExpense(unittest.TestCase):
         self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
 
+    def test_user_can_add_equal_expense(self):
+        self.assertTrue(hasattr(self.user, 'add_equal_expense'))
+        self.assertTrue(callable(getattr(self.user, 'add_equal_expense')))
+
     def test_equal_expense(self):
         self.user.add_equal_expense(
             title='expense equal',
@@ -47,6 +51,10 @@ class TestExactExpense(unittest.TestCase):
         self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
 
+    def test_user_can_add_exact_expense(self):
+        self.assertTrue(hasattr(self.user, 'add_exact_expense'))
+        self.assertTrue(callable(getattr(self.user, 'add_exact_expense')))
+
     def test_exact_expense(self):
         shares = {1: 100, 2: 300, 3: 200}
         self.user.add_exact_expense(
@@ -71,6 +79,10 @@ class TestPartsExpense(unittest.TestCase):
         self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
 
+    def test_user_can_add_parts_expense(self):
+        self.assertTrue(hasattr(self.user, 'add_parts_expense'))
+        self.assertTrue(callable(getattr(self.user, 'add_parts_expense')))
+
     def test_parts_expense(self):
         shares = {1: 50, 2: 100, 3: 80}
         self.user.add_parts_expense(
@@ -94,6 +106,10 @@ class TestPercentageExpense(unittest.TestCase):
             users.append(user)
         self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
+
+    def test_user_can_add_percentage_expense(self):
+        self.assertTrue(hasattr(self.user, 'add_percentage_expense'))
+        self.assertTrue(callable(getattr(self.user, 'add_percentage_expense')))
 
     def test_percentage_expense(self):
         shares = {1: 25, 2: 25, 3: 50}
