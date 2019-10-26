@@ -31,54 +31,49 @@ class User(DictModel):
             self,
             title: str,
             payee_id: int,
-            friend_ids: list,
             total_amount: float,
-            expense_type: ExpenseType = ExpenseType.EQUAL,
-            shares: list = None
+            expense_type: ExpenseType,
+            shares: dict,
     ) -> Expense:
-        for friend_id in friend_ids:
+        for friend_id in shares.keys():
             if User.is_valid(friend_id):
                 continue
             raise InvalidFriendIDsError(
                 'Invalid friend user id - {}'.format(friend_id)
             )
         Expense(
-            title,
-            payee_id,
-            friend_ids,
-            total_amount,
-            expense_type,
-            shares
+            title=title,
+            payee_id=payee_id,
+            total_amount=total_amount,
+            expense_type=expense_type,
+            shares=shares,
         )
 
     def add_equal_expense(
             self,
             title: str,
             payee_id: int,
-            friend_ids: list,
             total_amount: float,
+            friend_ids: list,
     ) -> Expense:
         self.__add_expense(
             title=title,
             payee_id=payee_id,
-            friend_ids=friend_ids,
             total_amount=total_amount,
             expense_type=ExpenseType.EQUAL,
-            shares=None,
+            shares={friend_id: 1 for friend_id in friend_ids},
         )
 
     def add_exact_expense(
             self,
             title: str,
             payee_id: int,
-            friend_ids: list,
             total_amount: float,
-            shares: list,
+            shares: dict,
     ) -> Expense:
         self.__add_expense(
             title=title,
             payee_id=payee_id,
-            friend_ids=friend_ids,
             total_amount=total_amount,
             expense_type=ExpenseType.EXACT,
             shares=shares,
@@ -88,14 +83,12 @@ class User(DictModel):
             self,
             title: str,
             payee_id: int,
-            friend_ids: list,
             total_amount: float,
             shares: list,
     ) -> Expense:
         self.__add_expense(
             title=title,
             payee_id=payee_id,
-            friend_ids=friend_ids,
             total_amount=total_amount,
             expense_type=ExpenseType.PARTS,
             shares=shares,
@@ -105,14 +98,12 @@ class User(DictModel):
             self,
             title: str,
             payee_id: int,
-            friend_ids: list,
             total_amount: float,
             shares: list,
     ) -> Expense:
         self.__add_expense(
             title=title,
             payee_id=payee_id,
-            friend_ids=friend_ids,
             total_amount=total_amount,
             expense_type=ExpenseType.PERCENTAGE,
             shares=shares,

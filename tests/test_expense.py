@@ -18,10 +18,10 @@ class TestEqualExpense(unittest.TestCase):
 
     def test_equal_expense(self):
         self.user.add_equal_expense(
-            'expense equal',
-            self.user.uid,
-            self.friend_ids,
-            200
+            title='expense equal',
+            payee_id=self.user.uid,
+            friend_ids=self.friend_ids,
+            total_amount=200
         )
         self.assertDictEqual(self.user.get_balance(), {
             1: -66.66, 2: -66.66, 3: -66.66
@@ -43,13 +43,12 @@ class TestExactExpense(unittest.TestCase):
         self.user = users[0]
 
     def test_exact_expense(self):
-        shares = [100, 300, 200]
+        shares = {1: 100, 2: 300, 3: 200}
         self.user.add_exact_expense(
-            'expense exact',
-            self.user.uid,
-            self.friend_ids,
-            600,
-            shares
+            title='expense exact',
+            payee_id=self.user.uid,
+            total_amount=600,
+            shares=shares,
         )
         self.assertDictEqual(self.user.get_balance(), {
             1: -100, 2: -300, 3: -200
@@ -71,13 +70,12 @@ class TestPartsExpense(unittest.TestCase):
         self.user = users[0]
 
     def test_parts_expense(self):
-        shares = [50, 100, 80]
+        shares = {1: 50, 2: 100, 3: 80}
         self.user.add_parts_expense(
-            'expense exact',
-            self.user.uid,
-            self.friend_ids,
-            600,
-            shares
+            title='expense parts',
+            payee_id=self.user.uid,
+            total_amount=600,
+            shares=shares,
         )
         self.assertDictEqual(self.user.get_balance(), {
             1: -132.0, 2: -258.0, 3: -210.0
@@ -99,13 +97,12 @@ class TestPercentageExpense(unittest.TestCase):
         self.user = users[0]
 
     def test_percentage_expense(self):
-        shares = [25, 25, 50]
+        shares = {1: 25, 2: 25, 3: 50}
         self.user.add_percentage_expense(
-            'expense exact',
-            self.user.uid,
-            self.friend_ids,
-            600,
-            shares
+            title='expense percentage',
+            payee_id=self.user.uid,
+            total_amount=600,
+            shares=shares,
         )
         self.assertDictEqual(self.user.get_balance(), {
             1: -150.0, 2: -150.0, 3: -300.0
