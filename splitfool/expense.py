@@ -44,7 +44,7 @@ class Expense(DictModel):
         self.expense_type = expense_type
         self.shares = shares
 
-        self.created_at = datetime.now().timestamp
+        self.created_at = datetime.now().timestamp()
         # validate
         self.__validate()
 
