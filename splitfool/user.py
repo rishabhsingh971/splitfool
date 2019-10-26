@@ -20,11 +20,11 @@ class User(DictModel):
 
     @staticmethod
     def get_user_by_id(user_id: int):
-        return User.get_data(user_id)
+        return User._get_data(user_id)
 
     @staticmethod
     def is_valid(user_id: int):
-        return user_id in User.get_all_data()
+        return user_id in User._get_all_data()
 
     # DOUBT: how to sync args??
     def __add_expense(

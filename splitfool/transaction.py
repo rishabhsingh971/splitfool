@@ -14,10 +14,10 @@ class Transaction(DictModel):
     def __add(self):
         # should be atomic
         for user_id in [self.payee_id, *self.friend_ids]:
-            expense_ids = self.get_data(user_id, [])
+            expense_ids = Transaction._get_data(user_id, [])
             expense_ids.append(self.expense_id)
             self._set_data(user_id, expense_ids)
 
     @staticmethod
     def get_user_data(user_id: int):
-        return Transaction.get_data(user_id)
+        return Transaction._get_data(user_id)
