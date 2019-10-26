@@ -115,7 +115,7 @@ class Expense(DictModel):
                 user_id: self.total_amount * round(share / share_total, 2) for user_id, share in self.shares.items()
             }
 
-    @classmethod
+    @staticmethod
     def get_by_id(expense_id):
         return Expense.get_data(expense_id)
 
