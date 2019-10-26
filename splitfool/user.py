@@ -1,16 +1,13 @@
 from .balance import Balance
 from .expense import Expense, ExpenseType
 from .errors import InvalidFriendIDsError
+from .model import DictModel
 from .transaction import Transaction
 
 
-class User:
-    __num = 1
-    __data = {}
-
+class User(DictModel):
     def __init__(self, name: str, phone_number: str = None, email: str = None):
-        # assign id
-        self.uid = User.__num
+        super().__init__()
 
         self.name = name
         self.phone_number = phone_number
@@ -19,16 +16,15 @@ class User:
         # TODO: sanitize input
 
         # store user
-        User.__data[self.uid] = self
-        User.__num += 1
+        User._set_data(self.uid, self)
 
     @staticmethod
     def get_user_by_id(user_id: int):
-        return User.__data.get(user_id)
+        return User.get_data(user_id)
 
     @staticmethod
     def is_valid(user_id: int):
-        return user_id in User.__data
+        return user_id in User.get_all_data()
 
     # DOUBT: how to sync args??
     def add_expense(
@@ -62,8 +58,11 @@ class User:
         return Transaction.get_user_data(self.uid)
 
     @staticmethod
-    def __reset():
-        User.__data.clear()
+    def _reset_all():
+        Balance._reset()
+        Expense._reset()
+        Transaction._reset()
+        User._reset()
 
     def __repr__(self):
         return '<User {} : {}>'.format(self.uid, self.name)

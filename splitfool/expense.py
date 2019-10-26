@@ -3,6 +3,7 @@ from enum import Enum, auto, unique
 
 from .balance import Balance
 from .errors import *
+from .model import DictModel
 from .transaction import Transaction
 
 
@@ -14,10 +15,7 @@ class ExpenseType(Enum):
     PARTS = auto()
 
 
-class Expense:
-    __balances: dict = {}
-    __data: dict = {}
-    __num: int = 1
+class Expense(DictModel):
 
     def __init__(
             self,
@@ -41,9 +39,7 @@ class Expense:
             shares {list} -- share of each friend in case expense
                 is not equally distributed (default: {None})
         """
-        # create expense id
-        self.uid = Expense.__num
-
+        super().__init__()
         self.title = title
         self.payee_id = payee_id
         self.friend_ids = friend_ids
@@ -58,18 +54,16 @@ class Expense:
         # calculate amount per friend
         amounts = self.__calculate_amounts()
 
-        Expense.__num += 1
-
+        # update expense data
+        self.__add()
         # add transaction
         Transaction(payee_id, friend_ids, self.uid)
         # add balance
         Balance(payee_id, friend_ids, amounts)
-        # update expense data
-        self.__add()
 
     def __add(self):
         """update expenses"""
-        self.__data[self.uid] = self
+        self._set_data(self.uid, self)
 
     def __validate(self):
         if not self.friend_ids:
@@ -131,17 +125,9 @@ class Expense:
                 self.total_amount * round(share / share_total, 2) for share in self.shares
             ]
 
-    @staticmethod
-    def get_all_data():
-        return Expense.__data
-
-    @staticmethod
+    @classmethod
     def get_by_id(expense_id):
-        return Expense.get_all_data().get(expense_id)
-
-    @staticmethod
-    def __reset():
-        Expense.__data.clear()
+        return Expense.get_data(expense_id)
 
     def __repr__(self):
         return '<Expense {}: {}>'.format(self.uid, self.title)
