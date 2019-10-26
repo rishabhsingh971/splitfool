@@ -2,7 +2,7 @@ from .model import DictModel
 
 
 class Transaction(DictModel):
-    def __init__(self, payee_id: int, friend_ids: int, expense_id: int):
+    def __init__(self, payee_id: int, friend_ids: list, expense_id: int):
         super().__init__()
         self.payee_id = payee_id
         self.friend_ids = friend_ids
