@@ -14,6 +14,9 @@ class ExpenseType(Enum):
     PERCENTAGE = auto()
     PARTS = auto()
 
+    def __repr__(self):
+        return self.name
+
 
 class Expense(DictModel):
 
