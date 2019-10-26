@@ -48,7 +48,6 @@ class TestExactExpense(unittest.TestCase):
         for i in range(1, n+1):
             user = User('username {}'.format(i))
             users.append(user)
-        self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
 
     def test_user_can_add_exact_expense(self):
@@ -76,7 +75,6 @@ class TestPartsExpense(unittest.TestCase):
         for i in range(1, n+1):
             user = User('username {}'.format(i))
             users.append(user)
-        self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
 
     def test_user_can_add_parts_expense(self):
@@ -104,7 +102,6 @@ class TestPercentageExpense(unittest.TestCase):
         for i in range(1, n+1):
             user = User('username {}'.format(i))
             users.append(user)
-        self.friend_ids = list(map(lambda user: user.uid, users[1:-1]))
         self.user = users[0]
 
     def test_user_can_add_percentage_expense(self):
