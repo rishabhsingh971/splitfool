@@ -109,6 +109,9 @@ class User(DictModel):
             shares=shares,
         )
 
+    def get_expenses(self):
+        return Expense.get_user_data(self.uid)
+
     def get_balance(self):
         return Balance.get_user_data(self.uid)
 
