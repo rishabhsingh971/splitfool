@@ -175,6 +175,37 @@ class TestMultipleExpense(TestExpense):
             3: {0: -170.0, 1: -86.66, 2: -136.67},
             4: {2: 150.0, 1: 60.0}
         })
+        self.assertListEqual(self.user.get_expenses(), [
+            {
+                'uid': 0,
+                'title': 'eq exp',
+                'payee_id': 0,
+                'total_amount': 440,
+                'expense_type': 'EQUAL',
+                'shares': {1: 1, 2: 1, 3: 1},
+            }, {
+                'uid': 1,
+                'title': 'ex exp',
+                'payee_id': 2,
+                'total_amount': 600,
+                'expense_type': 'EXACT',
+                'shares': {0: 150, 1: 100, 2: 200, 4: 150},
+            }, {
+                'uid': 2,
+                'title': 'pa exp',
+                'payee_id': 3,
+                'total_amount': 600,
+                'expense_type': 'PARTS',
+                'shares': {0: 3, 1: 1, 2: 2},
+            }, {
+                'uid': 3,
+                'title': 'pe exp',
+                'payee_id': 1,
+                'total_amount': 400,
+                'expense_type': 'PARTS',
+                'shares': {0: 40, 1: 20, 2: 10, 3: 15, 4: 15},
+            }
+        ])
 
 
 if __name__ == '__main__':
