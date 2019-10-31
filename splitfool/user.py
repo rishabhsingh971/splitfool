@@ -6,10 +6,17 @@ from .transaction import Transaction
 
 
 class User(DictModel):
-    def __init__(self, name: str, phone_number: str = None, email: str = None):
+    def __init__(
+            self,
+            name: str,
+            password: str,
+            phone_number: str = None,
+            email: str = None
+    ):
         super().__init__()
 
         self.name = name
+        self.password = password
         self.phone_number = phone_number
         self.email = email
 
