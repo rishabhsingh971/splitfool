@@ -147,7 +147,7 @@ class TestMultipleExpense(TestExpense):
                 2: 2,
             }
         )
-        self.user.add_parts_expense(
+        self.user.add_percentage_expense(
             'pe exp',
             1,
             400,
@@ -203,7 +203,7 @@ class TestMultipleExpense(TestExpense):
                 'title': 'pe exp',
                 'payee_id': 1,
                 'total_amount': 400,
-                'expense_type': 'PARTS',
+                'expense_type': 'PERCENTAGE',
                 'shares': {0: 40, 1: 20, 2: 10, 3: 15, 4: 15},
             }
         ])
