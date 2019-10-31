@@ -26,7 +26,6 @@ class User(DictModel):
     def is_valid(user_id: int):
         return user_id in User._get_all_data()
 
-    # DOUBT: how to sync args??
     def __add_expense(
             self,
             title: str,
