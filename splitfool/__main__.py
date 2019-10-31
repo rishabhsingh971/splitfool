@@ -33,6 +33,10 @@ def add_expense():
     pass
 
 
+def show_all_users():
+    pass
+
+
 def show_user_balances():
     pass
 
@@ -57,6 +61,10 @@ options = [
     {
         'desc': 'Add Expense',
         'fun': add_expense,
+    },
+    {
+        'desc': 'Show all User',
+        'fun': show_all_users,
     },
     {
         'desc': 'Show User Balances',
