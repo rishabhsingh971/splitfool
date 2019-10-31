@@ -11,6 +11,7 @@ class TestExpense(unittest.TestCase):
             user = User('username {}'.format(i))
             users.append(user)
         self.user = users[0]
+        self.maxDiff = None
 
     def check_function(self, function_name):
         self.assertTrue(hasattr(self.user, function_name))
