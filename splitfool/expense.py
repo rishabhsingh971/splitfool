@@ -140,7 +140,9 @@ class Expense(DictModel):
     def get_user_data(user_id):
         expenses = []
         for expense_id in Transaction.get_user_data(user_id):
-            expense = Expense.get_by_id(expense_id)
+            expense = Expense.get_by_id(expense_id).copy()
+            expense['expense_type'] = expense['expense_type'].name
+            del expense['created_at']
             expenses.append(expense)
         return expenses
 
