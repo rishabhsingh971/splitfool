@@ -1,6 +1,7 @@
 from .user import User
 from .expense import ExpenseType
 from getpass import getpass
+import sys
 
 user = None
 
@@ -79,5 +80,9 @@ options = [
     {
         'desc': 'Show simplified balances',
         'fun': show_simplified_balances,
+    },
+    {
+        'desc': 'Exit',
+        'fun': lambda: sys.exit(0),
     },
 ]
