@@ -166,6 +166,11 @@ def user_input(options):
         options[int(i)]['fun']()
 
 
+def done():
+    print('\n\n+++++++++++ Exit +++++++++++++++')
+    sys.exit(0)
+
+
 def main():
     options = [
         {
