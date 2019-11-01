@@ -31,8 +31,103 @@ def add_user():
     print('Added user, {}'.format(user))
 
 
+def _add_equal_expense():
+    print('\n-------- Equal Expense --------')
+    title = input('Title        : ')
+    payee_id = int(input('Payee ID     : '))
+    total = float(input('Total Amount : '))
+    friend_ids = input('Friend IDs   : ').split(',')
+    friend_ids = [int(fid.trim()) for fid in friend_ids]
+    user.add_equal_expense(
+        title=title,
+        payee_id=payee_id,
+        total_amount=total,
+        friend_ids=friend_ids
+    )
+
+
+def _add_exact_expense():
+    print('\n-------- Exact Expense --------')
+    title = input('Title        : ')
+    payee_id = int(input('Payee ID     : '))
+    total = float(input('Total Amount : '))
+    friend_ids = input('Friend IDs   : ').split(',')
+    friend_ids = [int(fid.trim()) for fid in friend_ids]
+    shares = input('Exact Shares : ').split(',')
+    shares = {
+        fid: float(share.trim())
+        for fid, share in zip(friend_ids, shares)
+    }
+    user.add_exact_expense(
+        title=title,
+        payee_id=payee_id,
+        total_amount=total,
+        shares=shares
+    )
+
+
+def _add_parts_expense():
+    print('\n-------- Parts Expense --------')
+    title = input('Title        : ')
+    payee_id = int(input('Payee ID     : '))
+    total = float(input('Total Amount : '))
+    friend_ids = input('Friend IDs   : ').split(',')
+    friend_ids = [int(fid.trim()) for fid in friend_ids]
+    shares = input('Parts Shares : ').split(',')
+    shares = {
+        fid: float(share.trim())
+        for fid, share in zip(friend_ids, shares)
+    }
+    user.add_parts_expense(
+        title=title,
+        payee_id=payee_id,
+        total_amount=total,
+        shares=shares
+    )
+
+
+def _add_percentage_expense():
+    print('\n-------- Percentage Expense --------')
+    title = input('Title             : ')
+    payee_id = int(input('Payee ID         : '))
+    total = float(input('Total Amount      : '))
+    friend_ids = input('Friend IDs        : ').split(',')
+    friend_ids = [int(fid.trim()) for fid in friend_ids]
+    shares = input('Percentage Shares : ').split(',')
+    shares = {
+        fid: float(share.trim())
+        for fid, share in zip(friend_ids, shares)
+    }
+    user.add_percentage_expense(
+        title=title,
+        payee_id=payee_id,
+        total_amount=total,
+        shares=shares
+    )
+
+
 def add_expense():
-    print('\n-------- Add Expense --------')
+    login()
+    print('\n-------- Expense Type --------')
+    options = [
+        {
+            'desc': ExpenseType.EQUAL.name,
+            'fun': _add_equal_expense,
+        },
+        {
+            'desc': ExpenseType.EXACT.name,
+            'fun': _add_exact_expense,
+        },
+        {
+            'desc': ExpenseType.PARTS.name,
+            'fun': _add_parts_expense,
+        },
+        {
+            'desc': ExpenseType.PERCENTAGE.name,
+            'fun': _add_percentage_expense,
+        },
+    ]
+    user_input(options)
 
 
 def show_all_users():
