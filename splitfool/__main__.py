@@ -9,13 +9,7 @@ def login():
     print('-------- Login --------')
     user_id = input('user id: ')
     password = getpass('password: ')
-    global user
-    user = User.get_user_by_id(user_id)
-    if not user or user.password != password:
-        print('Invalid user id or password')
-        user = None
-        return False
-    return True
+    return User.login(user_id, password)
 
 
 def add_user():
