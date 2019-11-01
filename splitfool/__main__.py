@@ -6,11 +6,11 @@ import sys
 user = None
 
 
-def login():
-    print('-------- Login --------')
+def login() -> User:
+    print('\n-------- Login --------')
     user_id = input('user id: ')
     password = getpass('password: ')
-    return User.login(user_id, password)
+    return User.login(user_id=user_id, password=password)
 
 
 def add_user():
