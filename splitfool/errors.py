@@ -16,3 +16,7 @@ class InvalidAmountError(BaseError):
 
 class InvalidExpenseTypeError(BaseError):
     pass
+
+
+class InvalidCredentialsError(BaseError):
+    pass
