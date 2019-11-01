@@ -1,6 +1,6 @@
 from .balance import Balance
 from .expense import Expense, ExpenseType
-from .errors import InvalidFriendIDsError
+from .errors import InvalidFriendIDsError, InvalidCredentialsError
 from .model import DictModel
 from .transaction import Transaction
 
@@ -138,6 +138,13 @@ class User(DictModel):
         Expense._reset()
         Transaction._reset()
         User._reset()
+
+    @staticmethod
+    def login(user_id: int, password: str):
+        user = User.get_user_by_id(user_id)
+        if not user or user.password != password:
+            raise InvalidCredentialsError('Invalid user id or password')
+        return user
 
     def __repr__(self):
         return '<User {} : {}>'.format(self.uid, self.name)
