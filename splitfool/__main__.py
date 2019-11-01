@@ -206,12 +206,19 @@ def main():
             'fun': done,
         },
     ]
-    try:
-        while True:
+    while True:
+        try:
             print('\n\n============ MAIN ============')
             user_input(options)
-    except (KeyboardInterrupt, EOFError):
-        print('\nBYE!!')
+        except (KeyboardInterrupt, EOFError):
+            try:
+                yn = input('\nExit? (y/N): ')
+                if yn == 'y':
+                    done()
+            except (KeyboardInterrupt, EOFError):
+                done()
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":
