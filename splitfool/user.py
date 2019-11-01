@@ -20,9 +20,10 @@ class User(DictModel):
         self.phone_number = phone_number
         self.email = email
 
+        self.__add()
         # TODO: sanitize input
 
-        # store user
+    def __add(self):
         User._set_data(self.uid, self)
 
     @staticmethod
@@ -142,6 +143,7 @@ class User(DictModel):
 
     @staticmethod
     def login(user_id: int, password: str):
+        print(User._get_all_data())
         user = User.get_user_by_id(user_id)
         if not user or user.password != password:
             raise InvalidCredentialsError('Invalid user id or password')
