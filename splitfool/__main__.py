@@ -203,7 +203,7 @@ def main():
         },
         {
             'desc': 'Exit',
-            'fun': lambda: sys.exit(0),
+            'fun': done,
         },
     ]
     try:
