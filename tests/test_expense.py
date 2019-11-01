@@ -187,6 +187,7 @@ class TestMultipleExpense(TestExpense):
                 'total_amount': 440,
                 'expense_type': 'EQUAL',
                 'shares': {1: 1, 2: 1, 3: 1},
+                'created_by': 0,
             }, {
                 'uid': 1,
                 'title': 'ex exp',
@@ -194,6 +195,7 @@ class TestMultipleExpense(TestExpense):
                 'total_amount': 600,
                 'expense_type': 'EXACT',
                 'shares': {0: 150, 1: 100, 2: 200, 4: 150},
+                'created_by': 0,
             }, {
                 'uid': 2,
                 'title': 'pa exp',
@@ -201,6 +203,7 @@ class TestMultipleExpense(TestExpense):
                 'total_amount': 600,
                 'expense_type': 'PARTS',
                 'shares': {0: 3, 1: 1, 2: 2},
+                'created_by': 0,
             }, {
                 'uid': 3,
                 'title': 'pe exp',
@@ -208,6 +211,7 @@ class TestMultipleExpense(TestExpense):
                 'total_amount': 400,
                 'expense_type': 'PERCENTAGE',
                 'shares': {0: 40, 1: 20, 2: 10, 3: 15, 4: 15},
+                'created_by': 0,
             }
         ])
 

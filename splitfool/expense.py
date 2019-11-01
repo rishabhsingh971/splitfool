@@ -27,6 +27,7 @@ class Expense(DictModel):
             total_amount: float,
             expense_type: ExpenseType,
             shares: dict,
+            created_by: int,
     ):
         """add expense
 
@@ -43,7 +44,7 @@ class Expense(DictModel):
         self.total_amount = total_amount
         self.expense_type = expense_type
         self.shares = shares
-
+        self.created_by = created_by
         self.created_at = datetime.now().timestamp()
         # validate
         self.__validate()

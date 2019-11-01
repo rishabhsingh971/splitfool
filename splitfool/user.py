@@ -53,6 +53,7 @@ class User(DictModel):
             total_amount=total_amount,
             expense_type=expense_type,
             shares=shares,
+            created_by=self.uid,
         )
 
     def add_equal_expense(
