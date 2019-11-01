@@ -17,7 +17,6 @@ def login() -> User:
             user = User.login(user_id=user_id, password=password)
         except InvalidCredentialsError as e:
             print(e)
-
     return user
 
 
