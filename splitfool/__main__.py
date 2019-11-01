@@ -55,53 +55,55 @@ def show_simplified_balances():
     print('\n-------- Simplified Balances --------')
 
 
-options = [
-    {
-        'desc': 'Add User',
-        'fun': add_user,
-    },
-    {
-        'desc': 'Add Expense',
-        'fun': add_expense,
-    },
-    {
-        'desc': 'Show all User',
-        'fun': show_all_users,
-    },
-    {
-        'desc': 'Show User Balances',
-        'fun': show_user_balances,
-    },
-    {
-        'desc': 'Show All Balances',
-        'fun': show_all_balances,
-    },
-    {
-        'desc': 'Show User Passbook',
-        'fun': show_user_passbook,
-    },
-    {
-        'desc': 'Show simplified balances',
-        'fun': show_simplified_balances,
-    },
-    {
-        'desc': 'Exit',
-        'fun': lambda: sys.exit(0),
-    },
-]
+def user_input(options):
+    for i, option in enumerate(options):
+        print('{}. {}'.format(i, option['desc']))
+    i = input('Choose option: ')
+    if not i.isnumeric() or int(i) < 0 or int(i) >= len(options):
+        print('xxxxxxxx INVALID INPUT xxxxxxxx')
+    else:
+        options[int(i)]['fun']()
 
 
 def main():
+    options = [
+        {
+            'desc': 'Add User',
+            'fun': add_user,
+        },
+        {
+            'desc': 'Add Expense',
+            'fun': add_expense,
+        },
+        {
+            'desc': 'Show all User',
+            'fun': show_all_users,
+        },
+        {
+            'desc': 'Show User Balances',
+            'fun': show_user_balances,
+        },
+        {
+            'desc': 'Show All Balances',
+            'fun': show_all_balances,
+        },
+        {
+            'desc': 'Show User Passbook',
+            'fun': show_user_passbook,
+        },
+        {
+            'desc': 'Show simplified balances',
+            'fun': show_simplified_balances,
+        },
+        {
+            'desc': 'Exit',
+            'fun': lambda: sys.exit(0),
+        },
+    ]
     try:
         while True:
             print('\n\n============ MAIN ============')
-            for i, option in enumerate(options):
-                print('{}. {}'.format(i, option['desc']))
-            i = input('Choose option: ')
-            if not i.isnumeric() or int(i) < 0 or int(i) >= len(options):
-                print('xxxxxxxx INVALID INPUT xxxxxxxx')
-            else:
-                options[int(i)]['fun']()
+            user_input(options)
     except KeyboardInterrupt:
         print('\nBYE!!')
 
