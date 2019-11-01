@@ -1,8 +1,9 @@
-from .user import User
-from .expense import ExpenseType
-from .errors import InvalidCredentialsError
-from getpass import getpass
 import sys
+from getpass import getpass
+
+from .errors import InvalidCredentialsError
+from .expense import ExpenseType
+from .user import User
 
 user: User = None
 
