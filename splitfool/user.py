@@ -145,6 +145,7 @@ class User(DictModel):
     def login(user_id: int, password: str):
         print(User._get_all_data())
         user = User.get_user_by_id(user_id)
+        print(user.password, password, user.password == password)
         if not user or user.password != password:
             raise InvalidCredentialsError('Invalid user id or password')
         return user
