@@ -8,9 +8,12 @@ user: User = None
 
 def login() -> User:
     print('\n-------- Login --------')
-    user_id = input('user id: ')
-    password = getpass('password: ')
-    return User.login(user_id=user_id, password=password)
+    global user
+    while not user:
+        user_id = input('user id: ')
+        password = getpass('password: ')
+        user = User.login(user_id=user_id, password=password)
+    return user
 
 
 def add_user():
