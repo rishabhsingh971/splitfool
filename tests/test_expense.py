@@ -8,7 +8,10 @@ class TestExpense(unittest.TestCase):
         n = 5
         users = []
         for i in range(1, n+1):
-            user = User('username {}'.format(i))
+            user = User(
+                name='username {}'.format(i),
+                password='pass{}'.format(i)
+            )
             users.append(user)
         self.user = users[0]
         self.maxDiff = None
