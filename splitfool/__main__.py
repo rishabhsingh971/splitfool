@@ -37,77 +37,30 @@ def add_user():
     print('Added user, {}'.format(user))
 
 
-def _add_equal_expense():
-    print('\n-------- Equal Expense --------')
+def _add_expense(expense_type: ExpenseType):
+    etype = expense_type.name.title()
+    print('\n-------- {} Expense --------'.format(etype))
     title = input('Title        : ')
     payee_id = int(input('Payee ID     : '))
     total = float(input('Total Amount : '))
     friend_ids = input('Friend IDs   : ').split(',')
     friend_ids = [int(fid.trim()) for fid in friend_ids]
-    user.add_equal_expense(
-        title=title,
-        payee_id=payee_id,
-        total_amount=total,
-        friend_ids=friend_ids
-    )
+    shares = None
+    if expense_type == ExpenseType.EQUAL:
+        shares = ['1']*len(friend_ids)
+    else:
+        shares = input('{} Shares : '.format(etype)).split(',')
 
-
-def _add_exact_expense():
-    print('\n-------- Exact Expense --------')
-    title = input('Title        : ')
-    payee_id = int(input('Payee ID     : '))
-    total = float(input('Total Amount : '))
-    friend_ids = input('Friend IDs   : ').split(',')
-    friend_ids = [int(fid.trim()) for fid in friend_ids]
-    shares = input('Exact Shares : ').split(',')
     shares = {
         fid: float(share.trim())
         for fid, share in zip(friend_ids, shares)
     }
-    user.add_exact_expense(
+
+    user._add_expense(
         title=title,
         payee_id=payee_id,
         total_amount=total,
-        shares=shares
-    )
-
-
-def _add_parts_expense():
-    print('\n-------- Parts Expense --------')
-    title = input('Title        : ')
-    payee_id = int(input('Payee ID     : '))
-    total = float(input('Total Amount : '))
-    friend_ids = input('Friend IDs   : ').split(',')
-    friend_ids = [int(fid.trim()) for fid in friend_ids]
-    shares = input('Parts Shares : ').split(',')
-    shares = {
-        fid: float(share.trim())
-        for fid, share in zip(friend_ids, shares)
-    }
-    user.add_parts_expense(
-        title=title,
-        payee_id=payee_id,
-        total_amount=total,
-        shares=shares
-    )
-
-
-def _add_percentage_expense():
-    print('\n-------- Percentage Expense --------')
-    title = input('Title             : ')
-    payee_id = int(input('Payee ID         : '))
-    total = float(input('Total Amount      : '))
-    friend_ids = input('Friend IDs        : ').split(',')
-    friend_ids = [int(fid.trim()) for fid in friend_ids]
-    shares = input('Percentage Shares : ').split(',')
-    shares = {
-        fid: float(share.trim())
-        for fid, share in zip(friend_ids, shares)
-    }
-    user.add_percentage_expense(
-        title=title,
-        payee_id=payee_id,
-        total_amount=total,
+        expense_type=expense_type,
         shares=shares
     )
 
@@ -117,20 +70,20 @@ def add_expense():
     print('\n-------- Expense Type --------')
     options = [
         {
-            'desc': ExpenseType.EQUAL.name,
-            'fun': _add_equal_expense,
+            'desc': ExpenseType.EQUAL.name.title(),
+            'fun': lambda: _add_expense(ExpenseType.EQUAL),
         },
         {
-            'desc': ExpenseType.EXACT.name,
-            'fun': _add_exact_expense,
+            'desc': ExpenseType.EXACT.name.title(),
+            'fun': lambda: _add_expense(ExpenseType.EXACT),
         },
         {
-            'desc': ExpenseType.PARTS.name,
-            'fun': _add_parts_expense,
+            'desc': ExpenseType.PARTS.name.title(),
+            'fun': lambda: _add_expense(ExpenseType.PARTS),
         },
         {
-            'desc': ExpenseType.PERCENTAGE.name,
-            'fun': _add_percentage_expense,
+            'desc': ExpenseType.PERCENTAGE.name.title(),
+            'fun': lambda: _add_expense(ExpenseType.PERCENTAGE),
         },
     ]
     user_input(options)
