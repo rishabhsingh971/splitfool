@@ -58,17 +58,18 @@ class Balance(DictModel):
         for user_id in data:
             Balance.__simplify(data, user_id, lender_ids[user_id])
 
-        filtered_data = {}
+        # convert data back to original unit(divide by 100)
+        result = {}
         for user_id, user_data in data.items():
             if not user_data:
                 continue
-            filtered_data[user_id] = {}
+            result[user_id] = {}
             for friend_id, amount in user_data.items():
-                filtered_data[user_id][friend_id] = amount / 100.0
-                if friend_id not in filtered_data:
-                    filtered_data[friend_id] = {}
-                filtered_data[friend_id][user_id] = -amount / 100.0
-        return filtered_data
+                result[user_id][friend_id] = amount / 100.0
+                if friend_id not in result:
+                    result[friend_id] = {}
+                result[friend_id][user_id] = -amount / 100.0
+        return result
 
     @staticmethod
     def __simplify(data, user_id, lender_ids):
