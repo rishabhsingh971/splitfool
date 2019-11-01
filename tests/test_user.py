@@ -34,6 +34,10 @@ class TestUser(unittest.TestCase):
         user2 = User(name=self.name, password='pass2')
         self.assertNotEqual(user2.uid, self.user.uid)
 
+    def test_login(self):
+        user = User.login(user_id=self.user.uid, password=self.user.password)
+        self.assertEqual(user, self.user)
+
 
 if __name__ == '__main__':
     unittest.main()
