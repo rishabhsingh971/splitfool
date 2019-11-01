@@ -1,5 +1,5 @@
 import sys
-from getpass import getpass
+# from getpass import getpass
 
 from .errors import InvalidCredentialsError
 from .expense import ExpenseType
@@ -13,7 +13,8 @@ def login() -> User:
     global user
     while not user:
         user_id = input('user id: ')
-        password = getpass('password: ')
+        # password = getpass('password: ')
+        password = input('password: ')
         try:
             user = User.login(user_id=user_id, password=password)
         except InvalidCredentialsError as e:
