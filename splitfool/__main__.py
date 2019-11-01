@@ -34,27 +34,22 @@ def add_expense():
 
 def show_all_users():
     print('\n-------- All Users --------')
-    pass
 
 
 def show_user_balances():
     print('\n-------- User Balances --------')
-    pass
 
 
 def show_all_balances():
     print('\n-------- All User Balances --------')
-    pass
 
 
 def show_user_passbook():
     print('\n-------- User Passbook --------')
-    pass
 
 
 def show_simplified_balances():
     print('\n-------- Simplified Balances --------')
-    pass
 
 
 options = [
