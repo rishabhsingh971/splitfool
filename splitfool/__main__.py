@@ -3,7 +3,7 @@ from .expense import ExpenseType
 from getpass import getpass
 import sys
 
-user = None
+user: User = None
 
 
 def login() -> User:
@@ -14,7 +14,7 @@ def login() -> User:
 
 
 def add_user():
-    print('-------- User Details --------')
+    print('\n-------- Add User --------')
     name = input('Name         : ')
     password = input('Password     : ')
     phone = input('Phone Number : ')
@@ -25,30 +25,35 @@ def add_user():
         phone_number=phone,
         email=email
     )
-    print('Added user, id : {}'.format(user.uid))
+    print('Added user, {}'.format(user))
 
 
 def add_expense():
-    pass
+    print('\n-------- Add Expense --------')
 
 
 def show_all_users():
+    print('\n-------- All Users --------')
     pass
 
 
 def show_user_balances():
+    print('\n-------- User Balances --------')
     pass
 
 
 def show_all_balances():
+    print('\n-------- All User Balances --------')
     pass
 
 
 def show_user_passbook():
+    print('\n-------- User Passbook --------')
     pass
 
 
 def show_simplified_balances():
+    print('\n-------- Simplified Balances --------')
     pass
 
 
