@@ -86,3 +86,22 @@ options = [
         'fun': lambda: sys.exit(0),
     },
 ]
+
+
+def main():
+    try:
+        while True:
+            print('\n\n============ MAIN ============')
+            for i, option in enumerate(options):
+                print('{}. {}'.format(i, option['desc']))
+            i = input('Choose option: ')
+            if not i.isnumeric() or int(i) < 0 or int(i) >= len(options):
+                print('xxxxxxxx INVALID INPUT xxxxxxxx')
+            else:
+                options[int(i)]['fun']()
+    except KeyboardInterrupt:
+        print('\nBYE!!')
+
+
+if __name__ == "__main__":
+    main()
