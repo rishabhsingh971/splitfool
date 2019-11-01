@@ -1,5 +1,6 @@
 from .user import User
 from .expense import ExpenseType
+from .errors import InvalidCredentialsError
 from getpass import getpass
 import sys
 
@@ -12,7 +13,11 @@ def login() -> User:
     while not user:
         user_id = input('user id: ')
         password = getpass('password: ')
-        user = User.login(user_id=user_id, password=password)
+        try:
+            user = User.login(user_id=user_id, password=password)
+        except InvalidCredentialsError as e:
+            print(e)
+
     return user
 
 
@@ -199,7 +204,7 @@ def main():
         while True:
             print('\n\n============ MAIN ============')
             user_input(options)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         print('\nBYE!!')
 
 
